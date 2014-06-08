@@ -1,0 +1,11 @@
+{% if session.logged_in %}
+	{% if posts %}
+		{% for post in posts %}
+			<p>{{post}}</p>
+		{% endfor %}
+	{% else %}
+		<p>No Posts Yet</p>
+	{% endif %}
+{% else %}
+	<p><a href="/login">Login</a> to use this.</p>
+{% endif %}
