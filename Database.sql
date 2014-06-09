@@ -65,3 +65,6 @@ CREATE TABLE IF NOT EXISTS `store` (
 --
 
 INSERT INTO `store` (`UserID`, `Name`, `Category`, `MRP`, `DealPrice`, `Available`) VALUES ('12345', 'Chair', 'Furniture', 2300, 1800, 1);
+INSERT INTO `store` (`UserID`, `Name`, `Category`, `MRP`, `DealPrice`, `Available`) VALUES ('12345', 'Table', 'Furniture', 1300, 1000, 1);
+INSERT INTO `store` (`UserID`, `Name`, `Category`, `MRP`, `DealPrice`, `Available`) VALUES ('12345', 'Fan', 'Electrical', 300, 180, 1);
+INSERT INTO `store` (`UserID`, `Name`, `Category`, `MRP`, `DealPrice`, `Available`) VALUES ('12345', 'Cycle', 'Transport', 4300, 2800, 1);

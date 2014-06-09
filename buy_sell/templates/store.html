@@ -1,28 +1,62 @@
-{%extends "index.html"%}
-{%block body%}
-<link rel="stylesheet" type="text/css" href="{{url_for('static',filename='css/store.css')}}">
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
-<script type="text/javascript" src="{{url_for('static',filename='js/flip.js')}}"></script>
-{%set i=10%}
-{%for entry in entries%}
-<div class="hover panel" style="margin-left:{{i}}px">
-	<div class="front">
-	  <div class="pad">
-      <h2>{{entry[1]}}</h2>
-      <p>
-       {{entry[2]}}<br><br>
-        {{entry[3]}}
-        <br>
-        {{entry[4]}}
-      </p>
-		</div>
+{%extends "layout.html"%}
+
+{% block body %}
+<head>
+	<title>College Feed</title>
+	<link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/style.css') }}">    
+</head>
+<body class="animated">
+
+<div id="cl-wrapper">
+	<a href="/logout">Logout</a>
+	<div class="container-fluid" id="pcont">
+  
+    
+	<div class="cl-mcont">
+    <h2 style="text-align:center;">The e-Store</h2>
+    <div class="row">
+    	
+		{%for entry in entries%}
+		<div class="col-md-3">
+		<div class="fd-tile tile-green weather">
+          <img src="{{ url_for('static',filename='images/anonymous.png')}}" height="100" width="100" alt="">
+          <h2>Item</h2>
+          <h1>{{entry[1]}}</h1>
+          <div class="row days">
+            <div class="col-xs-4 day">
+              <h6>Category</h6>
+              <h4>{{entry[2]}}</h4>
+            </div>
+            <div class="col-xs-4 day">
+              <h6>MRP</h6>
+              <h4><span class="fa fa-rupee"></span> {{entry[3]}}</h4>
+            </div>
+            <div class="col-xs-4 day">
+           	  <h6>Deal Price</h6>
+              <h4><span class="fa fa-rupee"></span> {{entry[4]}}</h4>
+            </div>
+          </div>
+        </div>
+        </div>
+        {% endfor %}
+ 
+	  </div>
 	</div>
-	<div class="back">
-		<div class="pad">
-			<center><h2>Image can be here</h2></center>
-		</div>
 	</div>
-</div>
-{%set i=i+230%}
-{% endfor %}
-{%endblock%}
+</div> 
+
+<script src="{{ url_for('static', filename='js/jquery.js') }}" type="text/javascript"></script>
+<script src="{{ url_for('static', filename='js/jPushMenu.js') }}" type="text/javascript"></script>
+<script src="{{ url_for('static', filename='js/jquery.nanoscroller.js') }}" type="text/javascript"></script>
+<script src="{{ url_for('static', filename='js/jquery-ui.js') }}" type="text/javascript"></script>
+<script src="{{ url_for('static', filename='js/core.js') }}" type="text/javascript"></script>
+
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="{{ url_for('static', filename='js/bootstrap.min.js') }}" type="text/javascript"></script>
+
+</body>
+</html>
+{% endblock %}
+<!-- Localized -->
