@@ -1,0 +1,14 @@
+<!doctype html>
+<title>SCorner</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<header>
+	<ul>
+			<li><a href="/">Home</a></li>
+			<li><a href="/buysell">Buy Sell</a></li>
+	</ul>
+</header>
+{% for message in get_flashed_messages() %}
+		<div style="text-align:center;">{{ message }}</div>
+		{% endfor %}
+{% block body %}{% endblock %}

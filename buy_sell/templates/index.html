@@ -1,0 +1,94 @@
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="{{url_for('static',filename='css/pure-min.css')}}">
+<style type="text/css">
+.home-menu {
+    padding: 0.5em;
+    text-align: center;
+    box-shadow: 0 1px 1px rgba(0,0,0, 0.10);
+}
+.home-menu.pure-menu-open {
+    background: #2d3e50;
+}
+.pure-menu.pure-menu-open.pure-menu-fixed {
+    /* Fixed menus normally have a border at the bottom. */
+    border-bottom: none;
+    /* I need a higher z-index here because of the scroll-over effect. */
+    z-index: 4;
+}
+
+.home-menu .pure-menu-heading {
+    color: white;
+    font-weight: 400;
+    font-size: 120%;
+}
+
+.home-menu .pure-menu-selected a {
+    color: white;
+}
+
+.home-menu a {
+    color: #6FBEF3;
+}
+.home-menu li a:hover,
+.home-menu li a:focus {
+    background: none;
+    border: none;
+    color: #AECFE5;
+}
+</style>
+<script src="http://yui.yahooapis.com/3.17.2/build/yui/yui-min.js"></script>
+</head><div class="header">
+    <div class="home-menu pure-menu pure-menu-open pure-menu-horizontal pure-menu-fixed" >
+        <a class="pure-menu-heading" href="">Bech De!</a>
+        <li><a href="#">Home</a></li>
+        <li><a href="#">New Deals</a></li>
+        <li><a href="#">Upload Items</a></li>
+        <li>
+            <a href="#">Categories</a>
+            <ul>
+                <li class="pure-menu-heading">Study Related</li>
+                <li class="pure-menu-separator"></li>
+                <li><a href="#">Academic Books</a></li>
+                <li><a href="#">Material</a></li>
+                <li><a href="#">Stationery</a></li>
+                <li class="pure-menu-heading">Others</li>
+                <li class="pure-menu-separator"></li>
+                <li><a href="#">Cycles</a></li>
+                <li><a href="#">Electronics</a></li>
+                <li><a href="#">Furniture</a>
+                	<ul>
+                        <li><a href="#">Chairs/Bean Bags</a></li>
+                        <li><a href="#">Anything else</a></li>
+                    </ul>
+                </li>
+                <!-- <li>
+                    <a href="#">Even More</a>
+                    <ul>
+                        
+                    </ul>
+                </li> -->
+            </ul>
+        </li>
+    </div>
+</div>
+{%block body%}{%endblock%}
+
+<script>
+YUI({
+    classNamePrefix: 'pure'
+}).use('gallery-sm-menu', function (Y) {
+
+    var horizontalMenu = new Y.Menu({
+        container         : '#header',
+        sourceNode        : '#menu-item',
+        orientation       : 'horizontal',
+        hideOnOutsideClick: false,
+        hideOnClick       : false
+    });
+
+    horizontalMenu.render();
+    horizontalMenu.show();
+
+});
+</script>
