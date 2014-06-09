@@ -71,7 +71,7 @@ def logout():
 @app.route("/")
 def mainscreen():
     db = get_cursor()
-    sql = 'select * from AnonymousPosts'
+    sql = 'select * from AnonymousPosts order by Date desc'
     db.execute(sql)
     posts = db.fetchall()
     db.execute("commit")

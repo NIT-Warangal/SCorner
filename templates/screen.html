@@ -1,17 +1,94 @@
-{%extends "layout.html"%}
-{%block body%}
+<!DOCTYPE html>
+<html lang="en">
 {% if session.logged_in %}
-	{% if posts %}
-		{% for post in posts %}
-		{%for item in post %}
-			<p>{{item}}</p>
-		{% endfor %}	
-		{% endfor %}
-	{% else %}
-		<p>No Posts Yet</p>
-	{% endif %}
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="shortcut icon" href="images/icon.png">
+
+	<title>College Feed</title>
+	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,400italic,700,800' rel='stylesheet' type='text/css'>
+
+	<!-- Bootstrap core CSS -->
+	<link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/bootstrap.css') }}">
+	<link rel=stylesheet type=text/css href="{{ url_for('static', filename='fonts/font-awesome-4/css/font-awesome.min.css') }}">
+
+	<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+	<!--[if lt IE 9]>
+	  <script src="../assets/js/html5shiv.js"></script>
+	  <script src="../assets/js/respond.min.js"></script>
+	<![endif]-->
+
+	<link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/style.css') }}">    
+</head>
+{% block body %}
+<body class="animated">
+
+<div id="cl-wrapper">
 	<a href="/logout">Logout</a>
+	<div class="container-fluid" id="pcont">
+  
+    
+	<div class="cl-mcont">
+    <h2 style="text-align:center;">The Shout Box</h2>
+    <div class="row">
+    	<div class="col-md-1"></div>
+      <div class="col-md-10">
+          <ul class="timeline">
+          	{% for post in posts %}
+            <li>
+              <i class="fa fa-comment"></i>
+              <span class="date">{{post[0].strftime('%d %b')}}</span>
+              <!-- If statement here to check type of post i.e. if its a complaint/enhancement/request/rant -->
+              <div class="content">
+                <p><strong>Anonymous</strong> has complained:</p>
+                <blockquote>
+                  <span class="label label-primary pull-right">Complaint</span> <img class="avatar" src="{{ url_for('static', filename='images/anonymous.png')}}"/> 
+                  <p>{{post[1]}}</p>
+                  <small>Anonymous</small>
+                </blockquote>
+              </div>
+            </li>
+            {% endfor %}
+          </ul>
+      </div>
+      <div class="col-md-1"></div>
+      <!-- <div class="col-md-5">         
+          <div class="block widget-notes">
+            <div class="header dark"><h4>Student Council Blog</h4></div>
+            <div class="content">
+              <div class="paper" contenteditable="true">
+              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Perferendis, id, incidunt, natus ex error iste corporis illum distinctio aliquid cum autem aperiam voluptate vitae? Beatae, provident illum et velit at.Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vitae, earum, natus dignissimos rerum ea quam officia nobis itaque praesentium nisi nam fuga mollitia perspiciatis aperiam sunt error a! Quod, voluptates.
+              </div>
+            </div>
+          </div>
+      </div> -->
+    </div>
+	</div>
+	</div>
+	
+	</div> 
+	
+</div>
+
+<script src="{{ url_for('static', filename='js/jquery.js') }}" type="text/javascript"></script>
+<script src="{{ url_for('static', filename='js/jPushMenu.js') }}" type="text/javascript"></script>
+<script src="{{ url_for('static', filename='js/jquery.nanoscroller.js') }}" type="text/javascript"></script>
+<script src="{{ url_for('static', filename='js/jquery-ui.js') }}" type="text/javascript"></script>
+<script src="{{ url_for('static', filename='js/core.js') }}" type="text/javascript"></script>
+
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="{{ url_for('static', filename='js/bootstrap.min.js') }}" type="text/javascript"></script>
+
+</body>
+</html>
+{% endblock %}
 {% else %}
-	<p><a href="/login">Login</a> to use this.</p>
+<div class="jumbotron">
+	You better be logged in. No Spamming.
+	<a href="/login">Login</a>
+</div>
 {% endif %}
-{%endblock%}
+<!-- Localized -->
