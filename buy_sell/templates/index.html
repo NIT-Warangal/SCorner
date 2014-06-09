@@ -2,48 +2,59 @@
 <head>
 <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='css/pure-min.css')}}">
 <style type="text/css">
-.home-menu {
+.pure-menu {
     padding: 0.5em;
     text-align: center;
     box-shadow: 0 1px 1px rgba(0,0,0, 0.10);
 }
-.home-menu.pure-menu-open {
-    background: #2d3e50;
-}
-.pure-menu.pure-menu-open.pure-menu-fixed {
+
+.pure-menu-open.pure-menu-fixed {
     /* Fixed menus normally have a border at the bottom. */
     border-bottom: none;
     /* I need a higher z-index here because of the scroll-over effect. */
     z-index: 4;
 }
 
-.home-menu .pure-menu-heading {
+.pure-menu-heading {
     color: white;
     font-weight: 400;
     font-size: 120%;
 }
 
-.home-menu .pure-menu-selected a {
+.pure-menu-selected a {
     color: white;
 }
 
-.home-menu a {
+.pure-menu a {
     color: #6FBEF3;
 }
-.home-menu li a:hover,
-.home-menu li a:focus {
+.pure-menu li a:hover,
+.pure-menu li a:focus {
     background: none;
     border: none;
     color: #AECFE5;
 }
+.is-center{
+	text-align: center;
+}
+.footer{
+	position: fixed;
+	bottom: 0%;
+	right: 0%;
+	left: 0%;
+	height: 20px;
+	color: #aaa;
+	background: #111;
+}
 </style>
 <script src="http://yui.yahooapis.com/3.17.2/build/yui/yui-min.js"></script>
-</head><div class="header">
-    <div class="home-menu pure-menu pure-menu-open pure-menu-horizontal pure-menu-fixed" >
+</head>
+    <div class="pure-menu pure-menu-open pure-menu-horizontal pure-menu-fixed" id="header">
         <a class="pure-menu-heading" href="">Bech De!</a>
+        <ul id="menu-item">
         <li><a href="#">Home</a></li>
         <li><a href="#">New Deals</a></li>
-        <li><a href="#">Upload Items</a></li>
+        <li><a href="/store">Store</a></li>
         <li>
             <a href="#">Categories</a>
             <ul>
@@ -70,9 +81,12 @@
                 </li> -->
             </ul>
         </li>
+        </ul>
     </div>
-</div>
 {%block body%}{%endblock%}
+<div class="footer l-box is-center">
+        View the source of this layout to learn more. Made with love by the YUI Team.
+    </div>
 
 <script>
 YUI({

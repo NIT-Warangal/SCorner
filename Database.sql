@@ -47,3 +47,21 @@ INSERT INTO `AnonymousPosts` (`Date`, `PostContent`, `Type`) VALUES
 ('2014-06-27 00:00:00', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nemo numquam officiis distinctio similique consequuntur provident eveniet aliquid reprehenderit. Dignissimos, expedita, omnis? Rerum, itaque, alias mollitia omnis quos quas a tempora.Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rem, praesentium, a, velit excepturi saepe fuga vel unde labore quae reiciendis enim sit quod nesciunt. Esse sed corporis quam eos ratione!', 3),
 ('2014-06-20 00:00:00', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nemo numquam officiis distinctio similique consequuntur provident eveniet aliquid reprehenderit. Dignissimos, expedita, omnis? Rerum, itaque, alias mollitia omnis quos quas a tempora.Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rem, praesentium, a, velit excepturi saepe fuga vel unde labore quae reiciendis enim sit quod nesciunt. Esse sed corporis quam eos ratione!', 4);
 
+--
+-- Table structure for table `store`
+--
+
+CREATE TABLE IF NOT EXISTS `store` (
+  `UserID` text NOT NULL,
+  `Name` text NOT NULL,
+  `Category` text NOT NULL,
+  `MRP` double(10,0) NOT NULL,
+  `DealPrice` double(10,0) NOT NULL,
+  `Available` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `store`
+--
+
+INSERT INTO `store` (`UserID`, `Name`, `Category`, `MRP`, `DealPrice`, `Available`) VALUES ('12345', 'Chair', 'Furniture', 2300, 1800, 1);
