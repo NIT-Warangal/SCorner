@@ -19,6 +19,9 @@
     	<div class="col-md-1"></div>
       <div class="col-md-10">
           <ul class="timeline">
+          	{% if not posts %}
+          	<li><i class="fa fa-globe purple"></i><span class="date"></span><div class="content"><p><strong>Admin: </strong> Oh No one has posted anything yet. Why don't you make one ?.</p></div></li>
+          	{% endif %}
           	{% for post in posts %}
           	{% if post[2] == 1 %}
             <li>
