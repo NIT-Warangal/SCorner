@@ -1,27 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
+{%extends "layout.html"%}
+
+{% block body %}
 {% if session.logged_in %}
 <head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link rel="shortcut icon" href="images/icon.png">
-
 	<title>College Feed</title>
-	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,400italic,700,800' rel='stylesheet' type='text/css'>
-
-	<!-- Bootstrap core CSS -->
-	<link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/bootstrap.css') }}">
-	<link rel=stylesheet type=text/css href="{{ url_for('static', filename='fonts/font-awesome-4/css/font-awesome.min.css') }}">
-
-	<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
-	<!--[if lt IE 9]>
-	  <script src="../assets/js/html5shiv.js"></script>
-	  <script src="../assets/js/respond.min.js"></script>
-	<![endif]-->
-
 	<link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/style.css') }}">    
 </head>
-{% block body %}
 <body class="animated">
 
 <div id="cl-wrapper">
@@ -84,11 +68,12 @@
 
 </body>
 </html>
-{% endblock %}
+
 {% else %}
 <div class="jumbotron">
 	You better be logged in. No Spamming.
 	<a href="/login">Login</a>
 </div>
 {% endif %}
+{% endblock %}
 <!-- Localized -->

@@ -1,7 +1,20 @@
 <!doctype html>
 <title>SCorner</title>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="shortcut icon" href="images/icon.png">
+<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,400italic,700,800' rel='stylesheet' type='text/css'>
+<link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/bootstrap.css') }}">
+	<link rel=stylesheet type=text/css href="{{ url_for('static', filename='fonts/font-awesome-4/css/font-awesome.min.css') }}">
+
+	<!-- Bootstrap core CSS -->
+	
+	<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+	<!--[if lt IE 9]>
+	  <script src="../assets/js/html5shiv.js"></script>
+	  <script src="../assets/js/respond.min.js"></script>
+	<![endif]-->
+
 <header>
 	<ul>
 			<li><a href="/">Home</a></li>
@@ -9,6 +22,6 @@
 	</ul>
 </header>
 {% for message in get_flashed_messages() %}
-		<div style="text-align:center;">{{ message }}</div>
+		<div style="text-align:center;" class="bg-info">{{ message }}</div>
 		{% endfor %}
 {% block body %}{% endblock %}

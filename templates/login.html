@@ -1,8 +1,5 @@
 {%extends "layout.html"%}
 {% block body %}
-{% for message in get_flashed_messages() %}
-		<div style="text-align:center;">{{ message }}</div>
-		{% endfor %}
 {% if error %}<p class="bg-danger"><strong>Error:</strong> {{ error }}</p>{% endif %}
 <form action="{{ url_for('login') }}" method="post" accept-charset="utf-8">
 	<p>
