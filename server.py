@@ -28,6 +28,20 @@ def close_db():
     """Closes the database again at the end of the request."""
     get_cursor().close()
 
+@app.route('/postit',methods=['GET','POST'])
+def postit():
+	if request.method=="POST":
+		db=get_cursor()
+		content = request.form['content']
+		posttype = int(request.form['ctype'])
+		now = datetime.datetime.today()
+		query = 'insert into AnonymousPosts values ("%s","%s","%s")'
+		db.execute(query%(now,content,posttype))
+		db.execute("commit")
+		flash('Posted at '+now.strftime('%d/%m/%y'))
+		return redirect(url_for('mainscreen'))
+	return redirect(url_for('mainscreen'))
+
 @app.route("/login",methods = ['GET','POST'])
 def login():
 	error = None
