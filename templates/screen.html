@@ -36,6 +36,7 @@
       <div class="col-md-10">
           <ul class="timeline">
           	{% for post in posts %}
+          	{% if post[2] == 1 %}
             <li>
               <i class="fa fa-comment"></i>
               <span class="date">{{post[0].strftime('%d %b')}}</span>
@@ -49,6 +50,52 @@
                 </blockquote>
               </div>
             </li>
+            {% endif %}
+            {% if post[2] == 2 %}
+            <li>
+              <i class="fa fa-plus-circle green"></i>
+              <span class="date">{{post[0].strftime('%d %b')}}</span>
+              <!-- If statement here to check type of post i.e. if its a complaint/enhancement/request/rant -->
+              <div class="content">
+                <p><strong>Anonymous</strong> has requested:</p>
+                <blockquote>
+                  <span class="label label-warning pull-right">Request</span> <img class="avatar" src="{{ url_for('static', filename='images/anonymous.png')}}"/> 
+                  <p>{{post[1]}}</p>
+                  <small>Anonymous</small>
+                </blockquote>
+              </div>
+            </li>
+            {% endif %}
+            {% if post[2] == 3 %}
+            <li>
+              <i class="fa fa-group"></i>
+              <span class="date">{{post[0].strftime('%d %b')}}</span>
+              <!-- If statement here to check type of post i.e. if its a complaint/enhancement/request/rant -->
+              <div class="content">
+                <p><strong>Anonymous</strong> has suggested:</p>
+                <blockquote>
+                  <span class="label label-success pull-right">Enhancement</span> <img class="avatar" src="{{ url_for('static', filename='images/anonymous.png')}}"/> 
+                  <p>{{post[1]}}</p>
+                  <small>Anonymous</small>
+                </blockquote>
+              </div>
+            </li>
+            {% endif %}
+            {% if post[2] == 4 %}
+            <li>
+              <i class="fa fa-retweet red"></i>
+              <span class="date">{{post[0].strftime('%d %b')}}</span>
+              <!-- If statement here to check type of post i.e. if its a complaint/enhancement/request/rant -->
+              <div class="content">
+                <p><strong>Anonymous</strong> has ranted:</p>
+                <blockquote>
+                  <span class="label label-danger pull-right">Rant</span> <img class="avatar" src="{{ url_for('static', filename='images/anonymous.png')}}"/> 
+                  <p>{{post[1]}}</p>
+                  <small>Anonymous</small>
+                </blockquote>
+              </div>
+            </li>
+            {% endif %}
             {% endfor %}
           </ul>
       </div>
