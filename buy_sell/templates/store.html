@@ -1,0 +1,28 @@
+{%extends "index.html"%}
+{%block body%}
+<link rel="stylesheet" type="text/css" href="{{url_for('static',filename='css/store.css')}}">
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script type="text/javascript" src="{{url_for('static',filename='js/flip.js')}}"></script>
+{%set i=10%}
+{%for entry in entries%}
+<div class="hover panel" style="margin-left:{{i}}px">
+	<div class="front">
+	  <div class="pad">
+      <h2>{{entry[1]}}</h2>
+      <p>
+       {{entry[2]}}<br><br>
+        {{entry[3]}}
+        <br>
+        {{entry[4]}}
+      </p>
+		</div>
+	</div>
+	<div class="back">
+		<div class="pad">
+			<center><h2>Image can be here</h2></center>
+		</div>
+	</div>
+</div>
+{%set i=i+230%}
+{% endfor %}
+{%endblock%}
