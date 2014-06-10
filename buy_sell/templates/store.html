@@ -1,48 +1,49 @@
-{%extends "layout.html"%}
+{%extends "index.html"%}
 
 {% block body %}
 <head>
-	<title>College Feed</title>
+	<title>E-Store</title>
 	<link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/style.css') }}">    
 </head>
 <body class="animated">
 
-<div id="cl-wrapper">
-	<a href="/logout">Logout</a>
-	<div class="container-fluid" id="pcont">
-  
-    
-	<div class="cl-mcont">
-    <h2 style="text-align:center;">The e-Store</h2>
-    <div class="row">
-    	
-		{%for entry in entries%}
-		<div class="col-md-3">
-		<div class="fd-tile tile-green weather">
-          <img src="{{ url_for('static',filename='images/anonymous.png')}}" height="100" width="100" alt="">
-          <h2>Item</h2>
-          <h1>{{entry[1]}}</h1>
-          <div class="row days">
-            <div class="col-xs-4 day">
-              <h6>Category</h6>
-              <h4>{{entry[2]}}</h4>
-            </div>
-            <div class="col-xs-4 day">
-              <h6>MRP</h6>
-              <h4><span class="fa fa-rupee"></span> {{entry[3]}}</h4>
-            </div>
-            <div class="col-xs-4 day">
-           	  <h6>Deal Price</h6>
-              <h4><span class="fa fa-rupee"></span> {{entry[4]}}</h4>
+  <div id="cl-wrapper">
+   <!-- <a href="/logout">Logout</a> -->
+   <div class="container-fluid" id="pcont">
+
+
+     <div class="cl-mcont">
+      <h2 style="text-align:center;">The e-Store</h2>
+      <div class="row">
+
+        {%for entry in entries%}
+        <div class="col-md-3">
+          <div class="fd-tile tile-green weather">
+            <img src="{{ url_for('static',filename='images/anonymous.png')}}" height="100" width="100" alt="">
+            <h2>Item</h2>
+            <h1>{{entry[1]}}</h1>
+            <h4>Uploaded by {{entry[0]}}</h4>
+            <div class="row days">
+              <div class="col-xs-4 day">
+                <h6>Category</h6>
+                <h4>{{entry[2]}}</h4>
+              </div>
+              <div class="col-xs-4 day">
+                <h6>MRP</h6>
+                <h4><span class="fa fa-rupee"></span> {{entry[3]}}</h4>
+              </div>
+              <div class="col-xs-4 day">
+                <h6>Deal Price</h6>
+                <h4><span class="fa fa-rupee"></span> {{entry[4]}}</h4>
+              </div>
             </div>
           </div>
         </div>
-        </div>
         {% endfor %}
- 
-	  </div>
-	</div>
-	</div>
+
+      </div>
+    </div>
+  </div>
 </div> 
 
 <script src="{{ url_for('static', filename='js/jquery.js') }}" type="text/javascript"></script>
@@ -52,9 +53,9 @@
 <script src="{{ url_for('static', filename='js/core.js') }}" type="text/javascript"></script>
 
 <!-- Bootstrap core JavaScript
-================================================== -->
-<!-- Placed at the end of the document so the pages load faster -->
-<script src="{{ url_for('static', filename='js/bootstrap.min.js') }}" type="text/javascript"></script>
+  ================================================== -->
+  <!-- Placed at the end of the document so the pages load faster -->
+  <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}" type="text/javascript"></script>
 
 </body>
 </html>
