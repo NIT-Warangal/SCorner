@@ -20,4 +20,29 @@ def store():
 	sql="select * from store"
 	db.execute(sql)
 	entries=db.fetchall()
-	return render_template('store.html',entries=entries)
+	uploader=[]
+	for entry in entries:
+		sql='select UserName from login where RollNo="%s"'%(entry[0])
+		db.execute(sql)
+		uploader.append(db.fetchone())
+		db.execute("commit")
+	db.execute('select distinct Category from store')		
+	category=db.fetchall()
+	return render_template('store.html',entries=entries,uploader=uploader,category=category)
+
+@app1.route('/filter',methods=['POST'])
+def filter():
+	db=get_cursor()
+	category=request.form['filter']
+	sql='select * from store where category="%s"'%(category)
+	db.execute(sql)
+	entries=db.fetchall()
+	uploader=[]
+	for entry in entries:
+		sql='select UserName from login where RollNo="%s"'%(entry[0])
+		db.execute(sql)
+		uploader.append(db.fetchone())
+		db.execute("commit")
+	db.execute('select distinct Category from store')		
+	category=db.fetchall()
+	return render_template('store.html',entries=entries,uploader=uploader,category=category)

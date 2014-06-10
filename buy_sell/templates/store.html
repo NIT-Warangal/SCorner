@@ -1,28 +1,31 @@
 {%extends "index.html"%}
 
 {% block body %}
-<head>
-	<title>E-Store</title>
-	<link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/style.css') }}">    
-</head>
+<title>E-Store</title>	
 <body class="animated">
 
   <div id="cl-wrapper">
    <!-- <a href="/logout">Logout</a> -->
    <div class="container-fluid" id="pcont">
-
-
      <div class="cl-mcont">
       <h2 style="text-align:center;">The e-Store</h2>
+      <form action="filter" method="POST">
+      <select class="form-control pull-right" style="width:300px;margin-top:-40px;" name="filter" onchange="this.form.submit()">
+        <option>Select one</option>
+        {%for entry in category%}
+        <option value="{{entry[0]}}">{{entry[0]}}</option>
+        {%endfor%}
+      </select>
+      </form>
       <div class="row">
-
+        {%set i=0%}
         {%for entry in entries%}
         <div class="col-md-3">
           <div class="fd-tile tile-green weather">
             <img src="{{ url_for('static',filename='images/anonymous.png')}}" height="100" width="100" alt="">
-            <h2>Item</h2>
-            <h1>{{entry[1]}}</h1>
-            <h4>Uploaded by {{entry[0]}}</h4>
+            <h4>Item</h4>
+            <h3>{{entry[1]}}</h3>
+            <h4>Uploaded by {{uploader[i][0]}}</h4>
             <div class="row days">
               <div class="col-xs-4 day">
                 <h6>Category</h6>
@@ -39,6 +42,7 @@
             </div>
           </div>
         </div>
+        {%set i=i+1%}
         {% endfor %}
 
       </div>
