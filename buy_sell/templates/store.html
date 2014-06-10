@@ -12,8 +12,8 @@
       <form action="filter" method="POST">
       <select class="form-control pull-right" style="width:300px;margin-top:-40px;" name="filter" onchange="this.form.submit()">
         <option>Select one</option>
-        {%for entry in category%}
-        <option value="{{entry[0]}}">{{entry[0]}}</option>
+        {%for entry in filter_cat%}
+        <option value="{{entry[0]}}">{{entry[1]}}</option>
         {%endfor%}
       </select>
       </form>
@@ -29,7 +29,7 @@
             <div class="row days">
               <div class="col-xs-4 day">
                 <h6>Category</h6>
-                <h4>{{entry[2]}}</h4>
+                <h4>{{category[i][0]}}</h4>
               </div>
               <div class="col-xs-4 day">
                 <h6>MRP</h6>

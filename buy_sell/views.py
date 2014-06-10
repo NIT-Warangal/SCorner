@@ -21,28 +21,36 @@ def store():
 	db.execute(sql)
 	entries=db.fetchall()
 	uploader=[]
+	category=[]
 	for entry in entries:
 		sql='select UserName from login where RollNo="%s"'%(entry[0])
 		db.execute(sql)
 		uploader.append(db.fetchone())
 		db.execute("commit")
-	db.execute('select distinct Category from store')		
-	category=db.fetchall()
-	return render_template('store.html',entries=entries,uploader=uploader,category=category)
+		sql='select CategoryName from store_categories where categoryid=%s'%(entry[2])
+		db.execute(sql)
+		category.append(db.fetchone())
+	db.execute('select distinct CategoryID,CategoryName from store_categories')		
+	filter_cat=db.fetchall()
+	return render_template('store.html',entries=entries,uploader=uploader,category=category,filter_cat=filter_cat)
 
 @app1.route('/filter',methods=['POST'])
 def filter():
 	db=get_cursor()
 	category=request.form['filter']
-	sql='select * from store where category="%s"'%(category)
+	sql='select * from store where categoryid="%s"'%(category)
 	db.execute(sql)
 	entries=db.fetchall()
 	uploader=[]
+	category=[]
 	for entry in entries:
 		sql='select UserName from login where RollNo="%s"'%(entry[0])
 		db.execute(sql)
 		uploader.append(db.fetchone())
 		db.execute("commit")
-	db.execute('select distinct Category from store')		
-	category=db.fetchall()
-	return render_template('store.html',entries=entries,uploader=uploader,category=category)
+		sql='select CategoryName from store_categories where categoryid=%s'%(entry[2])
+		db.execute(sql)
+		category.append(db.fetchone())
+	db.execute('select distinct CategoryID,CategoryName from store_categories')		
+	filter_cat=db.fetchall()
+	return render_template('store.html',entries=entries,uploader=uploader,category=category,filter_cat=filter_cat)

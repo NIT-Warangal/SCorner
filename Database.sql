@@ -50,11 +50,10 @@ INSERT INTO `AnonymousPosts` (`Date`, `PostContent`, `Type`) VALUES
 --
 -- Table structure for table `store`
 --
-
 CREATE TABLE IF NOT EXISTS `store` (
   `UserID` text NOT NULL,
   `Name` text NOT NULL,
-  `Category` text NOT NULL,
+  `CategoryID` text NOT NULL,
   `MRP` double(10,0) NOT NULL,
   `DealPrice` double(10,0) NOT NULL,
   `Available` int(11) NOT NULL
@@ -64,7 +63,28 @@ CREATE TABLE IF NOT EXISTS `store` (
 -- Dumping data for table `store`
 --
 
-INSERT INTO `store` (`UserID`, `Name`, `Category`, `MRP`, `DealPrice`, `Available`) VALUES ('12345', 'Chair', 'Furniture', 2300, 1800, 1);
-INSERT INTO `store` (`UserID`, `Name`, `Category`, `MRP`, `DealPrice`, `Available`) VALUES ('12345', 'Table', 'Furniture', 1300, 1000, 1);
-INSERT INTO `store` (`UserID`, `Name`, `Category`, `MRP`, `DealPrice`, `Available`) VALUES ('12345', 'Fan', 'Electrical', 300, 180, 1);
-INSERT INTO `store` (`UserID`, `Name`, `Category`, `MRP`, `DealPrice`, `Available`) VALUES ('12345', 'Cycle', 'Transport', 4300, 2800, 1);
+INSERT INTO `store` (`UserID`, `Name`, `CategoryID`, `MRP`, `DealPrice`, `Available`) VALUES
+('12345', 'Chair', '2', 2300, 1800, 1),
+('12345', 'Table', '2', 1300, 1000, 1),
+('12345', 'Fan', '1', 300, 180, 1),
+('12345', 'Cycle', '3', 4300, 2800, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `store_categories`
+--
+
+CREATE TABLE IF NOT EXISTS `store_categories` (
+  `CategoryID` int(11) NOT NULL,
+  `CategoryName` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `store_categories`
+--
+
+INSERT INTO `store_categories` (`CategoryID`, `CategoryName`) VALUES
+(1, 'Electronics'),
+(2, 'Furniture'),
+(3, 'Transport');
