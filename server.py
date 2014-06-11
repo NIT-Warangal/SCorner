@@ -35,7 +35,7 @@ def postit():
 		content = request.form['content']
 		posttype = int(request.form['ctype'])
 		now = datetime.datetime.today()
-		query = 'insert into AnonymousPosts values ("%s","%s","%s")'
+		query = 'insert into AnonymousPosts (Date, PostContent, Type) values ("%s","%s","%s")'
 		db.execute(query%(now,content,posttype))
 		db.execute("commit")
 		flash('Posted at '+now.strftime('%d/%m/%y'))
@@ -81,6 +81,7 @@ def logout():
         else:
             flash('Welcome Back!')
     return redirect(url_for('mainscreen'))
+
 @app.route("/filter",methods=['POST'])
 def filter():
 	db=get_cursor()

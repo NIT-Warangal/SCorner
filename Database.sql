@@ -33,10 +33,18 @@ INSERT INTO Login VALUES (4,'24689','modroot',MD5('modroot'),4);
 -- Type 4 : Rant
 
 CREATE TABLE IF NOT EXISTS `AnonymousPosts` (
+  `Sno` int NOT NULL AUTO_INCREMENT,
 	`Date` datetime NOT NULL,
 	`PostContent` text NOT NULL,
-	`Type` int NOT NULL
+	`Type` int NOT NULL,
+  PRIMARY KEY(Sno)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+CREATE TABLE IF NOT EXISTS `Likes` (
+  `Sno` int NOT NULL,
+  `LikeCount` int 
+)
+
 
 -- Sample Values for Anonymous Posts
 
