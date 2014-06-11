@@ -81,7 +81,18 @@ def logout():
         else:
             flash('Welcome Back!')
     return redirect(url_for('mainscreen'))
-
+@app.route("/filter",methods=['POST'])
+def filter():
+	db=get_cursor()
+	filter_num=int(request.form['filter'])
+	sql = 'select * from AnonymousPosts order by Date desc'
+	if filter_num>0:
+		sql='select * from AnonymousPosts where Type=%s'%(filter_num)
+	db.execute(sql)
+	posts=db.fetchall()
+	db.execute("commit")
+	return render_template('screen.html',posts=posts) #show_entries
+		
 @app.route("/")
 def mainscreen():
     db = get_cursor()

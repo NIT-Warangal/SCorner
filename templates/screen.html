@@ -15,6 +15,16 @@
     
 	<div class="cl-mcont">
     <h2 style="text-align:center;">The Shout Box</h2>
+    <form action="/filter" method="POST">
+      <select class="form-control pull-right" style="width:300px;margin-top:-40px;" name="filter" onchange="this.form.submit()">
+        <option>Select one</option>
+        <option value="-1">All</option>
+        {%set categories=['Complaint','Request','Enhancement','Rant']%}
+        {%for i in range(0,categories|length)%}
+        <option value="{{i+1}}">{{categories[i]}}</option>
+        {%endfor%}
+      </select>
+      </form>
     <div class="row">
     	<div class="col-md-1"></div>
       <div class="col-md-10">
