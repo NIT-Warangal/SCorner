@@ -19,9 +19,14 @@
       </form>
       <div class="row">
         {%set i=0%}
+        {%set color=''%}
+
         {%for entry in entries%}
         <div class="col-md-3">
-          <div class="fd-tile tile-green weather">
+          {%if category[i][0]=='Furniture'%}{%set color='green'%}
+          {%elif category[i][0]=='Electronics'%}{%set color='prusia'%}
+          {%elif category[i][0]=='Transport'%}{%set color='blue'%}{%endif%}
+          <div class="fd-tile tile-{{color}} weather">
             <img src="{{ url_for('static',filename='images/anonymous.png')}}" height="100" width="100" alt="">
             <h4>Item</h4>
             <h3>{{entry[1]}}</h3>
