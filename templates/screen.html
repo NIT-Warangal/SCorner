@@ -39,11 +39,11 @@
               <span class="date">{{post[1].strftime('%d %b')}}</span>
               <!-- If statement here to check type of post i.e. if its a complaint/enhancement/request/rant -->
               <div class="content">
-                <p><strong>Anonymous</strong> has complained:</p><span class="badge pull-right">8 Likes</span>
+                <p><strong>{{post[5]}}</strong> has complained:</p><span class="badge pull-right">{{post[4]}} Likes</span>
                 <blockquote>
                   <span class="label label-primary pull-right">Complaint</span> <img class="avatar" src="{{ url_for('static', filename='images/anonymous.png')}}"/> <a class="label label-success" href="#"><i class="fa fa-heart"></i></a>
                   <p>{{post[2]}}</p>
-                  <small>Anonymous</small>
+                  <small>{{post[5]}}</small>
                 </blockquote>
               </div>
             </li>
@@ -54,11 +54,11 @@
               <span class="date">{{post[1].strftime('%d %b')}}</span>
               <!-- If statement here to check type of post i.e. if its a complaint/enhancement/request/rant -->
               <div class="content">
-                <p><strong>Anonymous</strong> has requested:</p><span class="badge pull-right">8 Likes</span>
+                <p><strong>{{post[5]}}</strong> has requested:</p><span class="badge pull-right">{{post[4]}} Likes</span>
                 <blockquote>
                   <span class="label label-warning pull-right">Request</span> <img class="avatar" src="{{ url_for('static', filename='images/anonymous.png')}}"/> <a class="label label-success" href="#"><i class="fa fa-heart"></i></a>
                   <p>{{post[2]}}</p>
-                  <small>Anonymous</small>
+                  <small>{{post[5]}}</small>
                 </blockquote>
               </div>
             </li>
@@ -69,12 +69,12 @@
               <span class="date">{{post[1].strftime('%d %b')}}</span>
               <!-- If statement here to check type of post i.e. if its a complaint/enhancement/request/rant -->
               <div class="content">
-                <p><strong>Anonymous</strong> has suggested:</p>
-                <span class="badge pull-right">8 Likes</span>
+                <p><strong>{{post[5]}}</strong> has suggested:</p>
+                <span class="badge pull-right">{{post[4]}} Likes</span>
                 <blockquote>
                   <span class="label label-success pull-right">Enhancement</span> <img class="avatar" src="{{ url_for('static', filename='images/anonymous.png')}}"/> <a class="label label-success" href="#"><i class="fa fa-heart"></i></a>
                   <p>{{post[2]}}</p>
-                  <small>Anonymous</small>
+                  <small>{{post[5]}}</small>
                 </blockquote>
               </div>
             </li>
@@ -85,12 +85,12 @@
               <span class="date">{{post[1].strftime('%d %b')}}</span>
               <!-- If statement here to check type of post i.e. if its a complaint/enhancement/request/rant -->
               <div class="content">
-                <p><strong>Anonymous</strong> has ranted:</p>
-                <span class="badge pull-right">8 Likes</span>
+                <p><strong>{{post[5]}}</strong> has ranted:</p>
+                <span class="badge pull-right">{{post[4]}} Likes</span>
                 <blockquote>
                   <span class="label label-danger pull-right">Rant</span> <img class="avatar" src="{{ url_for('static', filename='images/anonymous.png')}}"/> <a class="label label-success" href="#"><i class="fa fa-heart"></i></a>
                   <p>{{post[2]}}</p>
-                  <small>Anonymous</small>
+                  <small>{{post[5]}}</small>
                 </blockquote>
               </div>
             </li>
@@ -146,7 +146,15 @@
                     <option value="3">Enhancement/Suggestion</option>
                     <option value="4">Rant</option>
                     </select>
-                    <!-- <input type="text" class="form-control" name="ctype" placeholder="Enter content here" autofocus/> -->
+                  </div>
+                  </div>
+                  <div class="form-group">
+                  <label class="col-md-2 control-label" style="margin-top:5px;">Privacy Type</label>
+                  <div class="col-xs-3">
+                    <select class="form-control" name="ptype">
+                    <option value="1">Myself</option>
+                    <option value="2">Anonymous</option>
+                    </select>
                   </div>
                   </div>
                  </div>
@@ -156,7 +164,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-warning" data-dismiss="modal">Close</button>
-          <button type="submit" class="btn btn-success" >Post Anonymously!</button>
+          <button type="submit" class="btn btn-success" >Post My Shout!</button>
         </div>
         </form>
       </div>

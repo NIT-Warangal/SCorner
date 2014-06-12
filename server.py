@@ -32,14 +32,23 @@ def close_db():
 def postit():
 	if request.method=="POST":
 		db=get_cursor()
+		user = app.config['USERNAME']
 		content = request.form['content']
 		posttype = int(request.form['ctype'])
+		privacytype = int(request.form['ptype'])
 		now = datetime.datetime.today()
-		query = 'insert into AnonymousPosts (Date, PostContent, Type) values ("%s","%s","%s")'
-		db.execute(query%(now,content,posttype))
-		db.execute("commit")
-		flash('Posted at '+now.strftime('%d/%m/%y'))
-		return redirect(url_for('mainscreen'))
+		if privacytype == 2:
+			query = 'insert into AnonymousPosts (Date, PostContent, Type, LikeCount,Name) values ("%s","%s","%s","0","Anonymous")'
+			db.execute(query%(now,content,posttype))
+			db.execute("commit")
+			return redirect(url_for('mainscreen'))
+		else:
+			likecount=0
+			query = 'insert into AnonymousPosts (Date,PostContent,Type,LikeCount,Name) values ("%s","%s","%s","%s","%s")'
+			db.execute(query%(now,content,posttype,likecount,user))
+			db.execute("commit")
+			flash('Posted at '+now.strftime('%d/%m/%y'))
+			return redirect(url_for('mainscreen'))
 	return redirect(url_for('mainscreen'))
 
 @app.route("/login",methods = ['GET','POST'])
