@@ -16,10 +16,28 @@
 	<![endif]-->
 
 <header>
-	<ul>
-			<li><a href="/">Home</a></li>
-			<li><a href="/buysell">Buy Sell</a></li>
-	</ul>
+	<div id="head-nav" class="navbar navbar-default">
+    <div class="container-fluid">
+      <div class="navbar-collapse">
+        <ul class="nav navbar-nav navbar-right user-nav">
+          <li class="dropdown profile_menu">
+          	{% if session.logged_in %}
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span>Hello {{UName}}</span> <b class="caret"></b></a>
+            <ul class="dropdown-menu">
+              <li><a href="/logout">Sign Out</a></li>
+            </ul>
+            {% else %}
+            <a href="/login" class="dropdown-toggle" data-toggle="dropdown"> Login</a>
+            {% endif %}
+          </li>
+        </ul>     
+        <ul class="nav navbar-nav not-nav">
+          <!-- Left side elements -->
+        </ul>
+
+      </div><!--/.nav-collapse animate-collapse -->
+    </div>
+  </div>
 </header>
 {% for message in get_flashed_messages() %}
 		<div style="text-align:center;" class="bg-info">{{ message }}</div>

@@ -78,7 +78,7 @@ def login():
 			app.config['USERID'] = uid
 			flash('You were logged in ')
 			return redirect(url_for('mainscreen'))
-	return render_template('login.html', error=error)
+	return render_template('login.html', error=error,UName=app.config['USERNAME'])
 
 @app.route('/logout')
 def logout():
@@ -101,7 +101,7 @@ def filter():
 	db.execute(sql)
 	posts=db.fetchall()
 	db.execute("commit")
-	return render_template('screen.html',posts=posts) #show_entries
+	return render_template('screen.html',posts=posts,UName=app.config['USERNAME']) #show_entries
 		
 @app.route("/")
 def mainscreen():
@@ -110,7 +110,7 @@ def mainscreen():
     db.execute(sql)
     posts = db.fetchall()
     db.execute("commit")
-    return render_template('screen.html',posts=posts) #show_entries
+    return render_template('screen.html',posts=posts,UName=app.config['USERNAME']) #show_entries
 
 if __name__ == "__main__":
 	app.debug = True
