@@ -27,20 +27,44 @@
 #header{
     background:#2d3e50;
 }
-.navbar-default .navbar-nav > li > a{
+ .navbar > .container-fluid .navbar-brand {
     color: white;
-    border-bottom-width: 0px;
-    transition: border-bottom 0.5s,border-bottom-width 0.5s;
-    -webkit-transition-timing-function: cubic-bezier(1.000, -0.530, 0.405, 1.425);
+}
+.navbar-default .navbar-nav > li > a{
+  display: inline-block;
+  width: 100%;
+  padding: 1em;
+  margin: 0;
+  text-decoration: none;
+  color: #bbb;
+  -webkit-transition:color .5s ease;
 }
 .navbar-default .navbar-nav > li > a:hover{
-    color: #1f8dd6;
-    padding-bottom: 5px;
-    border-bottom: 1px solid white;
-    border-bottom-width: 1px;
+  color: #fff;
 }
-.navbar > .container-fluid .navbar-brand {
-    color: white;   
+.slide-left-right
+{
+text-decoration:none;
+display: inline-block;
+color:tomato;
+}
+/* add a empty string after the elment with class .slide-left-right */
+.slide-left-right:after 
+{
+content: '';
+display: block;
+height: 3px;
+width: 0;
+background: transparent;
+transition: width .5s ease, background-color .5s ease; /* .5 seonds for changes to the width and background-color */
+-webkit-transition: width .5s ease, background-color .5s ease; /* Chrome and Safari */
+-moz-transition: width .5s ease, background-color .5s ease; /* FireFox */
+}
+/* Change the width and background on hover, aka sliding out */
+.slide-left-right:hover:after 
+{
+width: 100%;
+background: tomato;
 }
 </style>
 </head>
@@ -55,11 +79,12 @@
             </button>
             <a class="navbar-brand" href="#">Bech De!</a>
         </div>
-        <div class="navbar-collapse collapse navbar-right">
+        <div class="navbar-collapse collapse navbar-right" >
             <ul class="nav navbar-nav">
-                <li><a href="/">Home</a></li>
-                <li><a href="#">New Deals</a></li>
-                <li><a href="/store">Store</a></li>
+                <li class="slide-left-right"><a href="/">Home</a></li>
+                <li class="slide-left-right"><a href="#">New Deals</a></li>
+                <li class="slide-left-right"><a href="/store">Store</a></li>
+                <hr/>
             </ul>
         </div>
     </div>

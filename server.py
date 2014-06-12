@@ -80,6 +80,34 @@ def login():
 			return redirect(url_for('mainscreen'))
 	return render_template('login.html', error=error,UName=app.config['USERNAME'])
 
+@app.route('/like',methods=['POST'])
+def like():
+	db=get_cursor()
+	if request.method=='POST':
+		sql='select count(*) from AnonymousPosts'
+		db.execute(sql)
+		num_of_rows=db.fetchone()[0]
+		flash(num_of_rows)
+		if num_of_rows>0:
+			for i in range(0,int(num_of_rows)):
+				if request.form['like']=='like'+str(i):
+					r=str(i)
+					sno=int(request.form['sno'+r])
+					sql='update AnonymousPosts set `LikeCount`=`LikeCount`+1 where Sno=%s'%(sno)
+					db.execute(sql)
+					db.execute("commit")
+					# flash("You liked "+str(sno)+" post")
+					return redirect(url_for('mainscreen'))
+				elif request.form['like']=='dislike'+str(i):
+					r=str(i)
+					sno=int(request.form['sno'+r])
+					sql='update AnonymousPosts set `LikeCount`=`LikeCount`-1 where Sno=%s'%(sno)
+					db.execute(sql)
+					db.execute("commit")
+					# flash("You disliked "+str(sno)+" post")
+					return redirect(url_for('mainscreen'))
+		flash('No posts???')
+		return redirect(url_for('mainscreen'))
 @app.route('/logout')
 def logout():
     if session['logged_in'] != None:
