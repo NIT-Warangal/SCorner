@@ -93,13 +93,16 @@ def like():
 				if request.form['like']=='like'+str(i):
 					r=str(i)
 					sno=int(request.form['sno'+r])
-					sql='select count(*) from like_history where sno=%s and username="%s"'%(sno,app.config['USERNAME'])
+					sql='select * from like_history where sno=%s and username="%s"'%(sno,app.config['USERNAME'])
 					db.execute(sql)
-					result=db.fetchone()[0]
+					result=db.fetchone()
 					if result<=0:
 						sql='insert into like_history values(%s,"%s",1)'%(sno,app.config['USERNAME'])
 					else:
-						sql='update like_history set activity=1 where sno=%s and username="%s"'%(sno,app.config['USERNAME'])
+						if result[2]==0:
+							sql='delete from like_history where sno=%s and username="%s" and activity=0'%(sno,app.config['USERNAME'])
+						else:
+							sql='update like_history set activity=1 where sno=%s and username="%s"'%(sno,app.config['USERNAME'])
 					db.execute(sql)
 					db.execute("commit")
 					sql='update AnonymousPosts set `LikeCount`=`LikeCount`+1 where Sno=%s'%(sno)
@@ -110,13 +113,16 @@ def like():
 				elif request.form['like']=='dislike'+str(i):
 					r=str(i)
 					sno=int(request.form['sno'+r])
-					sql='select count(*) from like_history where sno=%s and username="%s"'%(sno,app.config['USERNAME'])
+					sql='select * from like_history where sno=%s and username="%s"'%(sno,app.config['USERNAME'])
 					db.execute(sql)
-					result=db.fetchone()[0]
+					result=db.fetchone()
 					if result<=0:
-						sql='insert into like_history values(%s,"%s",1)'%(sno,app.config['USERNAME'])
+						sql='insert into like_history values(%s,"%s",0)'%(sno,app.config['USERNAME'])
 					else:
-						sql='update like_history set activity=0 where sno=%s and username="%s"'%(sno,app.config['USERNAME'])
+						if result[2]==1:
+							sql='delete from like_history where sno=%s and username="%s" and activity=1'%(sno,app.config['USERNAME'])
+						else:
+							sql='update like_history set activity=0 where sno=%s and username="%s"'%(sno,app.config['USERNAME'])
 					db.execute(sql)
 					db.execute("commit")
 					sql='update AnonymousPosts set `LikeCount`=`LikeCount`-1 where Sno=%s'%(sno)
