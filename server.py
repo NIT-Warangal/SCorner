@@ -93,6 +93,15 @@ def like():
 				if request.form['like']=='like'+str(i):
 					r=str(i)
 					sno=int(request.form['sno'+r])
+					sql='select count(*) from like_history where sno=%s and username="%s"'%(sno,app.config['USERNAME'])
+					db.execute(sql)
+					result=db.fetchone()[0]
+					if result<=0:
+						sql='insert into like_history values(%s,"%s",1)'%(sno,app.config['USERNAME'])
+					else:
+						sql='update like_history set activity=1 where sno=%s and username="%s"'%(sno,app.config['USERNAME'])
+					db.execute(sql)
+					db.execute("commit")
 					sql='update AnonymousPosts set `LikeCount`=`LikeCount`+1 where Sno=%s'%(sno)
 					db.execute(sql)
 					db.execute("commit")
@@ -101,6 +110,15 @@ def like():
 				elif request.form['like']=='dislike'+str(i):
 					r=str(i)
 					sno=int(request.form['sno'+r])
+					sql='select count(*) from like_history where sno=%s and username="%s"'%(sno,app.config['USERNAME'])
+					db.execute(sql)
+					result=db.fetchone()[0]
+					if result<=0:
+						sql='insert into like_history values(%s,"%s",1)'%(sno,app.config['USERNAME'])
+					else:
+						sql='update like_history set activity=0 where sno=%s and username="%s"'%(sno,app.config['USERNAME'])
+					db.execute(sql)
+					db.execute("commit")
 					sql='update AnonymousPosts set `LikeCount`=`LikeCount`-1 where Sno=%s'%(sno)
 					db.execute(sql)
 					db.execute("commit")
@@ -138,7 +156,18 @@ def mainscreen():
     db.execute(sql)
     posts = db.fetchall()
     db.execute("commit")
-    return render_template('screen.html',posts=posts,UName=app.config['USERNAME']) #show_entries
+    activity=[]
+    for post in posts:
+    	sql='select activity from like_history where sno=%s and username="%s"'%(post[0],app.config['USERNAME'])
+    	db.execute(sql)
+    	result=db.fetchone()
+    	db.execute("commit")
+    	if result is None:
+    		like=-1
+    	else:
+    		like=int(result[0])
+    	activity.append(int(like))
+    return render_template('screen.html',posts=posts,UName=app.config['USERNAME'],activity=activity) #show_entries
 
 if __name__ == "__main__":
 	app.debug = True
