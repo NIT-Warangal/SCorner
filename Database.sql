@@ -92,3 +92,10 @@ INSERT INTO `store_categories` (`CategoryID`, `CategoryName`) VALUES
 (1, 'Electronics'),
 (2, 'Furniture'),
 (3, 'Transport');
+------------------------------------------------------------
+
+CREATE TABLE IF NOT EXISTS `like_history` (
+  `sno` int(11) NOT NULL,
+  `username` text NOT NULL,
+  `activity` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
