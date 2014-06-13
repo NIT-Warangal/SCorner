@@ -32,6 +32,7 @@ def store():
 		category.append(db.fetchone())
 	db.execute('select distinct CategoryID,CategoryName from store_categories')		
 	filter_cat=db.fetchall()
+	flash("something")
 	return render_template('store.html',entries=entries,uploader=uploader,category=category,filter_cat=filter_cat)
 
 @app1.route('/filter',methods=['POST'])

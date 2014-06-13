@@ -12,6 +12,9 @@
       <script src="../assets/js/respond.min.js"></script>
     <![endif]-->
 <link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/style.css') }}">    
+<script type="text/javascript">
+$(".alert").alert();
+</script>
 <style type="text/css">
 .footer{
     position: fixed;
@@ -90,6 +93,13 @@ background: tomato;
     </div>
 </div>
 <div style="margin-top:55px;"></div>
+{% for message in get_flashed_messages() %}
+    <div class="alert alert-warning fade in" style="text-align:center;">
+      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+      {{message}}
+    </div>
+    {% endfor %}
+
 {%block body%}{%endblock%}
 <div class="footer is-center">
         View the <a href="https://github.com/NIT-Warangal/SCorner" style="color:#1f8dff;text-decoration:none;">source</a> of site on GitHub to make contributions.
