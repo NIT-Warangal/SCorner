@@ -28,6 +28,12 @@ def close_db():
     """Closes the database again at the end of the request."""
     get_cursor().close()
 
+@app.route('/postblog',methods=['GET','POST'])
+def postblog():
+	if request.method=="POST":
+		return redirect(url_for('mainscreen'))
+	return render_template('editor.html')
+
 @app.route('/postit',methods=['GET','POST'])
 def postit():
 	if request.method=="POST":
