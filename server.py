@@ -87,7 +87,7 @@ def like():
 		sql='select count(*) from AnonymousPosts'
 		db.execute(sql)
 		num_of_rows=db.fetchone()[0]
-		flash(num_of_rows)
+		# flash(num_of_rows)
 		if num_of_rows>0:
 			for i in range(0,int(num_of_rows)):
 				if request.form['like']=='like'+str(i):
