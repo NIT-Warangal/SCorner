@@ -126,6 +126,7 @@ def like():
 					return redirect(url_for('mainscreen'))
 		flash('No posts???')
 		return redirect(url_for('mainscreen'))
+
 @app.route('/logout')
 def logout():
     if session['logged_in'] != None:
@@ -147,7 +148,18 @@ def filter():
 	db.execute(sql)
 	posts=db.fetchall()
 	db.execute("commit")
-	return render_template('screen.html',posts=posts,UName=app.config['USERNAME']) #show_entries
+	activity=[]
+	for post in posts:
+		sql='select activity from like_history where sno=%s and username="%s"'%(post[0],app.config['USERNAME'])
+		db.execute(sql)
+		result=db.fetchone()
+		db.execute("commit")
+		if result is None:
+			like=-1
+		else:
+			like=int(result[0])
+		activity.append(int(like))
+	return render_template('screen.html',posts=posts,UName=app.config['USERNAME'],activity=activity) #show_entries
 		
 @app.route("/")
 def mainscreen():
