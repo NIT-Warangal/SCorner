@@ -1,0 +1,71 @@
+{%extends "layout.html"%}
+{% block body %}
+<link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/style.css') }}"> 
+<link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/summernote.min.css') }}"> 
+<style type="text/css">
+textarea .note-codable{
+	width: 688px; height: 139px;
+}
+</style>
+<body class="animated">
+<div id="cl-wrapper">
+
+
+  
+  <div class="container-fluid" id="pcont">
+  
+    
+  <div class="cl-mcont">
+      
+      <div class="row">
+        <div class="col-md-12">
+        
+          <div class="block-flat">
+            <div class="header">              
+              <h3>Post Blog Article</h3>
+            </div>
+            <div class="content">
+              <div id="summernote"></div>
+            </div>
+          </div>
+        </div>
+      </div>  </div>
+  
+  </div> 
+  
+</div>
+
+
+<script src="{{ url_for('static', filename='js/jquery.js') }}" type="text/javascript"></script>
+<script src="{{ url_for('static', filename='js/jquery.cookie.js') }}" type="text/javascript"></script>
+<script src="{{ url_for('static', filename='js/jPushMenu.js') }}" type="text/javascript"></script>
+<script src="{{ url_for('static', filename='js/jquery.nanoscroller.js') }}" type="text/javascript"></script>
+<script src="{{ url_for('static', filename='js/jquery.sparkline.min.js') }}" type="text/javascript"></script>
+<script src="{{ url_for('static', filename='js/jquery-ui.js') }}" type="text/javascript"></script>
+<script src="{{ url_for('static', filename='js/core.js') }}" type="text/javascript"></script>
+
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="{{ url_for('static', filename='js/bootstrap.min.js') }}" type="text/javascript"></script>
+<script src="{{ url_for('static', filename='js/ckeditor/ckeditor.js') }}" type="text/javascript"></script>
+<script src="{{ url_for('static', filename='js/ckeditor/adapters/jquery.js') }}" type="text/javascript"></script>
+<script src="{{ url_for('static', filename='js/summernote.min.js') }}" type="text/javascript"></script>
+<script src="{{ url_for('static', filename='js/wysihtml5-0.3.0.js') }}" type="text/javascript"></script>
+<script src="{{ url_for('static', filename='js/bootstrap3-wysihtml5.all.min.js') }}" type="text/javascript"></script>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+      //initialize the javascript
+      $('textarea.ckeditor').ckeditor();
+      CKEDITOR.disableAutoInline = true;
+      $(".inline-editable").each(function(){
+        CKEDITOR.inline($(this)[0]);
+      });
+    
+      $('#some-textarea').wysihtml5();
+      $('#summernote').summernote();
+    });
+</script>
+</body>
+{% endblock %}
