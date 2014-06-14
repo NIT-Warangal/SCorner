@@ -192,7 +192,52 @@ def mainscreen():
     		like=int(result[0])
     	activity.append(int(like))
     return render_template('shout/screen.html',posts=posts,UName=app.config['USERNAME'],activity=activity) #show_entries
+#---------------Buy_Sell---------------
 
+@app.route('/bechde')
+def index():
+    return render_template('buysell/index.html')
+
+@app.route('/store')
+def store():
+	db=get_cursor()
+	sql="select * from store"
+	db.execute(sql)
+	entries=db.fetchall()
+	uploader=[]
+	category=[]
+	for entry in entries:
+		sql='select UserName from login where RollNo="%s"'%(entry[0])
+		db.execute(sql)
+		uploader.append(db.fetchone())
+		db.execute("commit")
+		sql='select CategoryName from store_categories where categoryid=%s'%(entry[2])
+		db.execute(sql)
+		category.append(db.fetchone())
+	db.execute('select distinct CategoryID,CategoryName from store_categories')		
+	filter_cat=db.fetchall()
+	return render_template('buysell/store.html',entries=entries,uploader=uploader,category=category,filter_cat=filter_cat)
+
+@app.route('/filter_store',methods=['POST'])
+def filter_store():
+	db=get_cursor()
+	category=request.form['filter']
+	sql='select * from store where categoryid="%s"'%(category)
+	db.execute(sql)
+	entries=db.fetchall()
+	uploader=[]
+	category=[]
+	for entry in entries:
+		sql='select UserName from login where RollNo="%s"'%(entry[0])
+		db.execute(sql)
+		uploader.append(db.fetchone())
+		db.execute("commit")
+		sql='select CategoryName from store_categories where categoryid=%s'%(entry[2])
+		db.execute(sql)
+		category.append(db.fetchone())
+	db.execute('select distinct CategoryID,CategoryName from store_categories')		
+	filter_cat=db.fetchall()
+	return render_template('buysell/store.html',entries=entries,uploader=uploader,category=category,filter_cat=filter_cat)
 if __name__ == "__main__":
 	app.debug = True
 	app.secret_key=os.urandom(24)
