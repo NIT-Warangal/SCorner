@@ -1,0 +1,18 @@
+
+<html>
+{% if error %}<div class="alert alert-warning fade in" style="text-align:center;">
+      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+      Error:{{error}}
+    </div>{% endif %}
+<form action="{{ url_for('login') }}" method="post" accept-charset="utf-8">
+	<p>
+		<label for="form_username">Username</label><br/>
+		<input id="form_username" type="text" name=username required="required" pattern="[0-9a-z]{3,20}" title="The Username field must be between 3 and 20 characters in length, and contain only digits and lowercase letters" class="sharif_input" value="" autofocus="autofocus"/>
+	</p>
+	<p>
+		<label for="form_password">Password</label><br/>
+		<input id="form_password" type="password" name=password required="required" pattern=".{1,200}" title="The Password field must be at least 1 characters in length" class="sharif_input"/>
+	</p>
+	<input type="submit" value=Login id="submit"/>
+</form>
+</html>
