@@ -1,18 +1,47 @@
-{%extends "shout/layout.html"%}
+<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,400italic,700,800' rel='stylesheet' type='text/css'>
+<link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/bootstrap.css') }}">
+<link rel=stylesheet type=text/css href="{{ url_for('static', filename='fonts/font-awesome-4/css/font-awesome.min.css') }}">
+<link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/style.css') }}">
+<script src="{{ url_for('static', filename='js/jquery.js') }}" type="text/javascript"></script>
+<script src="{{ url_for('static', filename='js/bootstrap.min.js') }}" type="text/javascript"></script>
 {% block body %}
 {% if error %}<div class="alert alert-warning fade in" style="text-align:center;">
       <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
       Error:{{error}}
     </div>{% endif %}
-<form action="{{ url_for('login') }}" method="post" accept-charset="utf-8">
-	<p>
-		<label for="form_username">Username</label><br/>
-		<input id="form_username" type="text" name=username required="required" pattern="[0-9a-z]{3,20}" title="The Username field must be between 3 and 20 characters in length, and contain only digits and lowercase letters" class="sharif_input" value="" autofocus="autofocus"/>
-	</p>
-	<p>
-		<label for="form_password">Password</label><br/>
-		<input id="form_password" type="password" name=password required="required" pattern=".{1,200}" title="The Password field must be at least 1 characters in length" class="sharif_input"/>
-	</p>
-	<input type="submit" value=Login id="submit"/>
-</form>
+    <div id="cl-wrapper" class="login-container" style="opacity: 1; margin-left: 0px;">
+<div class="middle-login">
+<div class="block-flat">
+			<div class="header">							
+				<h3 class="text-center">SCorner Login</h3>
+			</div>
+			<div>
+				<form style="margin-bottom: 0px !important;" class="form-horizontal" action="{{ url_for('login') }}" method="post" accept-charset="utf-8">
+					<div class="content">
+							<div class="form-group">
+								<div class="col-sm-12">
+									<div class="input-group">
+										<span class="input-group-addon"><i class="fa fa-user"></i></span>
+										<input id="form_username" type="text" name=username required="required" pattern="[0-9a-z]{3,20}" title="The Username field must be between 3 and 20 characters in length, and contain only digits and lowercase letters" class="form-control" value="" autofocus="autofocus"/>
+									</div>
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="col-sm-12">
+									<div class="input-group">
+										<span class="input-group-addon"><i class="fa fa-lock"></i></span>
+										<input id="form_password" type="password" name=password required="required" pattern=".{1,200}" title="The Password field must be at least 1 characters in length" class="form-control"/>
+									</div>
+								</div>
+							</div>
+							
+					</div>
+					<div class="foot">
+						<input type="submit" value=Login id="submit" class="btn btn-primary"/>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	</div>
 {% endblock %}
