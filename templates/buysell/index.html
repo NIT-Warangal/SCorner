@@ -80,7 +80,10 @@ background: tomato;
               <span class="icon-bar"></span>
               <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">Bech De!</a>
+            <ul class="nav navbar-nav not-nav">
+          <!-- Left side elements -->
+          <h3 class="fa fa-shopping-cart fa-8 animated" style="color:tomato;display:inline-block;padding:0.5em;margin:0;"><span style="font-family:Open Sans;"> Bech De!</span></h3>
+        </ul>
         </div>
         <div class="navbar-collapse collapse navbar-right" >
             <ul class="nav navbar-nav">
@@ -99,8 +102,17 @@ background: tomato;
       {{message}}
     </div>
     {% endfor %}
-
+{%if session.logged_in%}
 {%block body%}{%endblock%}
+{%else%}
+<div class="jumbotron">
+  <center>
+    <h1>View of the store before logging in!</h1>
+    <a href="{{url_for('login')}}" class="btn btn-lg btn-success">Login</a>
+  </center>
+</div>
+{%endif%}
+
 <div class="footer is-center">
         View the <a href="https://github.com/NIT-Warangal/SCorner" style="color:#1f8dff;text-decoration:none;">source</a> of site on GitHub to make contributions.
 </div>

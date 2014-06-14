@@ -31,7 +31,7 @@ def close_db():
 @app.route('/postblog',methods=['GET','POST'])
 def postblog():
 	if request.method=="POST":
-		return redirect(url_for('mainscreen'))
+		return redirect(url_for('shout'))
 	return render_template('shout/editor.html')
 
 @app.route('/postit',methods=['GET','POST'])
@@ -47,15 +47,15 @@ def postit():
 			query = 'insert into AnonymousPosts (Date, PostContent, Type, LikeCount,Name) values ("%s","%s","%s","0","Anonymous")'
 			db.execute(query%(now,content,posttype))
 			db.execute("commit")
-			return redirect(url_for('mainscreen'))
+			return redirect(url_for('shout'))
 		else:
 			likecount=0
 			query = 'insert into AnonymousPosts (Date,PostContent,Type,LikeCount,Name) values ("%s","%s","%s","%s","%s")'
 			db.execute(query%(now,content,posttype,likecount,user))
 			db.execute("commit")
 			flash('Posted at '+now.strftime('%d/%m/%y'))
-			return redirect(url_for('mainscreen'))
-	return redirect(url_for('mainscreen'))
+			return redirect(url_for('shout'))
+	return redirect(url_for('shout'))
 
 @app.route("/login",methods = ['GET','POST'])
 def login():
@@ -84,7 +84,7 @@ def login():
 			app.config['USERID'] = uid
 			flash('You were logged in ')
 			return redirect(url_for('mainscreen'))
-	return render_template('shout/login.html', error=error,UName=app.config['USERNAME'])
+	return render_template('global/login.html', error=error,UName=app.config['USERNAME'])
 
 @app.route('/like',methods=['POST'])
 def like():
@@ -115,7 +115,7 @@ def like():
 					db.execute(sql)
 					db.execute("commit")
 					# flash("You liked "+str(sno)+" post")
-					return redirect(url_for('mainscreen'))
+					return redirect(url_for('shout'))
 				elif request.form['like']=='dislike'+str(i):
 					r=str(i)
 					sno=int(request.form['sno'+r])
@@ -135,9 +135,9 @@ def like():
 					db.execute(sql)
 					db.execute("commit")
 					# flash("You disliked "+str(sno)+" post")
-					return redirect(url_for('mainscreen'))
+					return redirect(url_for('shout'))
 		flash('No posts???')
-		return redirect(url_for('mainscreen'))
+		return redirect(url_for('shout'))
 
 @app.route('/logout')
 def logout():
@@ -148,7 +148,7 @@ def logout():
             flash('You were logged out')
         else:
             flash('Welcome Back!')
-    return redirect(url_for('mainscreen'))
+    return redirect(url_for('shout'))
 
 @app.route("/filter",methods=['POST'])
 def filter():
@@ -172,9 +172,14 @@ def filter():
 			like=int(result[0])
 		activity.append(int(like))
 	return render_template('shout/screen.html',posts=posts,UName=app.config['USERNAME'],activity=activity) #show_entries
-		
+
 @app.route("/")
 def mainscreen():
+	session['current_page']="welcome"
+	return render_template('global/welcome.html')
+		
+@app.route("/shout")
+def shout():
     db = get_cursor()
     sql = 'select * from AnonymousPosts order by Date desc'
     db.execute(sql)
@@ -195,8 +200,9 @@ def mainscreen():
 #---------------Buy_Sell---------------
 
 @app.route('/bechde')
-def index():
-    return render_template('buysell/index.html')
+def bechde():
+	session['current_page']="store"
+	return render_template('buysell/index.html')
 
 @app.route('/store')
 def store():
