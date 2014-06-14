@@ -1,0 +1,17 @@
+{%extends "buysell/layout.html"%}
+{%block body%}
+{% if session.logged_in %}
+	{% if posts %}
+		{% for post in posts %}
+		{%for item in post %}
+			<p>{{item}}</p>
+		{% endfor %}	
+		{% endfor %}
+	{% else %}
+		<p>No Posts Yet</p>
+	{% endif %}
+	<a href="/logout">Logout</a>
+{% else %}
+	<p><a href="/login">Login</a> to use this.</p>
+{% endif %}
+{%endblock%}

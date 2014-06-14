@@ -32,7 +32,7 @@ def close_db():
 def postblog():
 	if request.method=="POST":
 		return redirect(url_for('mainscreen'))
-	return render_template('editor.html')
+	return render_template('shout/editor.html')
 
 @app.route('/postit',methods=['GET','POST'])
 def postit():
@@ -84,7 +84,7 @@ def login():
 			app.config['USERID'] = uid
 			flash('You were logged in ')
 			return redirect(url_for('mainscreen'))
-	return render_template('login.html', error=error,UName=app.config['USERNAME'])
+	return render_template('shout/login.html', error=error,UName=app.config['USERNAME'])
 
 @app.route('/like',methods=['POST'])
 def like():
@@ -171,7 +171,7 @@ def filter():
 		else:
 			like=int(result[0])
 		activity.append(int(like))
-	return render_template('screen.html',posts=posts,UName=app.config['USERNAME'],activity=activity) #show_entries
+	return render_template('shout/screen.html',posts=posts,UName=app.config['USERNAME'],activity=activity) #show_entries
 		
 @app.route("/")
 def mainscreen():
@@ -191,7 +191,7 @@ def mainscreen():
     	else:
     		like=int(result[0])
     	activity.append(int(like))
-    return render_template('screen.html',posts=posts,UName=app.config['USERNAME'],activity=activity) #show_entries
+    return render_template('shout/screen.html',posts=posts,UName=app.config['USERNAME'],activity=activity) #show_entries
 
 if __name__ == "__main__":
 	app.debug = True

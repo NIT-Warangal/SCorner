@@ -7,13 +7,15 @@ mysql.init_app(app1)
 
 for key in config:
     app1.config[key] = config[key]
+
 app1.config.from_object(__name__)
 def get_cursor():
     return mysql.connect().cursor()
 
 @app1.route('/')
 def index():
-    return render_template('index.html')
+    return render_template('buysell/index.html')
+
 @app1.route('/store')
 def store():
 	db=get_cursor()
@@ -33,7 +35,7 @@ def store():
 	db.execute('select distinct CategoryID,CategoryName from store_categories')		
 	filter_cat=db.fetchall()
 	flash("something")
-	return render_template('store.html',entries=entries,uploader=uploader,category=category,filter_cat=filter_cat)
+	return render_template('buysell/store.html',entries=entries,uploader=uploader,category=category,filter_cat=filter_cat)
 
 @app1.route('/filter',methods=['POST'])
 def filter():
@@ -54,4 +56,4 @@ def filter():
 		category.append(db.fetchone())
 	db.execute('select distinct CategoryID,CategoryName from store_categories')		
 	filter_cat=db.fetchall()
-	return render_template('store.html',entries=entries,uploader=uploader,category=category,filter_cat=filter_cat)
+	return render_template('buysell/store.html',entries=entries,uploader=uploader,category=category,filter_cat=filter_cat)
