@@ -34,6 +34,11 @@
     <div class="row">
     	<div class="col-md-1"></div>
       <div class="col-md-10">
+        {% if posts|length > 1 or posts|length == 0 %}
+        <p>Showing {{posts|length}} results</p>
+        {% else %}
+        <p>Showing {{posts|length}} result</p>
+        {% endif %}
         <form action="{{url_for('like')}}" method="POST">
           <ul class="timeline">
           	{% if not posts %}
