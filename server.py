@@ -1,6 +1,6 @@
 import os,binascii
 from flask import Flask, request, session, g, redirect, url_for, abort, \
-     render_template, flash
+     render_template, flash, jsonify
 from flaskext.mysql import MySQL
 from config import config
 import datetime
@@ -86,58 +86,58 @@ def login():
 			return redirect(url_for('mainscreen'))
 	return render_template('global/login.html', error=error,UName=app.config['USERNAME'])
 
-@app.route('/like',methods=['POST'])
+@app.route('/like')
 def like():
 	db=get_cursor()
-	if request.method=='POST':
-		sql='select count(*) from AnonymousPosts'
+	a = request.args.get('a',0,type=int)
+	b = request.args.get('b',0,type=int)
+	if a>0:
+		shift=0
+		print a
+		sql='select * from like_history where sno=%s and username="%s"'%(a,app.config['USERNAME'])
 		db.execute(sql)
-		num_of_rows=db.fetchone()[0]
-		# flash(num_of_rows)
-		if num_of_rows>0:
-			for i in range(0,int(num_of_rows)):
-				if request.form['like']=='like'+str(i):
-					r=str(i)
-					sno=int(request.form['sno'+r])
-					sql='select * from like_history where sno=%s and username="%s"'%(sno,app.config['USERNAME'])
-					db.execute(sql)
-					result=db.fetchone()
-					if result<=0:
-						sql='insert into like_history values(%s,"%s",1)'%(sno,app.config['USERNAME'])
-					else:
-						if result[2]==0:
-							sql='delete from like_history where sno=%s and username="%s" and activity=0'%(sno,app.config['USERNAME'])
-						else:
-							sql='update like_history set activity=1 where sno=%s and username="%s"'%(sno,app.config['USERNAME'])
-					db.execute(sql)
-					db.execute("commit")
-					sql='update AnonymousPosts set `LikeCount`=`LikeCount`+1 where Sno=%s'%(sno)
-					db.execute(sql)
-					db.execute("commit")
-					# flash("You liked "+str(sno)+" post")
-					return redirect(url_for('shout'))
-				elif request.form['like']=='dislike'+str(i):
-					r=str(i)
-					sno=int(request.form['sno'+r])
-					sql='select * from like_history where sno=%s and username="%s"'%(sno,app.config['USERNAME'])
-					db.execute(sql)
-					result=db.fetchone()
-					if result<=0:
-						sql='insert into like_history values(%s,"%s",0)'%(sno,app.config['USERNAME'])
-					else:
-						if result[2]==1:
-							sql='delete from like_history where sno=%s and username="%s" and activity=1'%(sno,app.config['USERNAME'])
-						else:
-							sql='update like_history set activity=0 where sno=%s and username="%s"'%(sno,app.config['USERNAME'])
-					db.execute(sql)
-					db.execute("commit")
-					sql='update AnonymousPosts set `LikeCount`=`LikeCount`-1 where Sno=%s'%(sno)
-					db.execute(sql)
-					db.execute("commit")
-					# flash("You disliked "+str(sno)+" post")
-					return redirect(url_for('shout'))
-		flash('No posts???')
-		return redirect(url_for('shout'))
+		result=db.fetchone()
+		if result<=0:
+			sql='insert into like_history values(%s,"%s",1)'%(a,app.config['USERNAME'])
+		else:
+			if result[2]==0:
+				sql='delete from like_history where sno=%s and username="%s"'%(a,app.config['USERNAME'])
+				shift=1
+			else:
+				sql='update like_history set activity=1 where sno=%s and username = "%s"'%(a,app.config['USERNAME'])
+		db.execute(sql)
+		db.execute("commit")
+		sql='update anonymousposts set likecount=likecount+1 where sno=%s'%(a)
+		db.execute(sql)
+		db.execute("commit")
+		sql='select likecount from anonymousposts where sno=%s'%(a)
+		db.execute(sql)
+		res=db.fetchone()[0]
+		return jsonify(result1=res,shift=shift)
+	elif b>0:
+		shift=0
+		sql='select * from like_history where sno=%s and username="%s"'%(b,app.config['USERNAME'])
+		db.execute(sql)
+		result=db.fetchone()
+		if result<=0:
+			sql='insert into like_history values(%s,"%s",0)'%(b,app.config['USERNAME'])
+		else:
+			if result[2]==1:
+				sql='delete from like_history where sno=%s and username="%s"'%(b,app.config['USERNAME'])
+				shift=1
+			else:
+				sql='update like_history set activity=0 where sno=%s and username = "%s"'%(b,app.config['USERNAME'])
+		db.execute(sql)
+		db.execute("commit")
+		sql='update anonymousposts set likecount=likecount-1 where sno=%s'%(b)
+		db.execute(sql)
+		db.execute("commit")
+		sql='select likecount from anonymousposts where sno=%s'%(b)
+		db.execute(sql)
+		res=db.fetchone()[0]
+		print 'unliking'
+		return jsonify(result1=res,shift=shift)
+
 
 @app.route('/logout')
 def logout():

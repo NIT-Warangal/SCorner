@@ -5,13 +5,42 @@
 <head>
 	<title>College Feed</title>
 	<link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/style.css') }}">    
-  <script type="text/javascript">
-  </script>
-  <style type="text/css">
-  #badge{
-    margin-top: -20px;
-  }
-  </style>
+<script type="text/javascript">
+$(document).ready(function() {
+  {%set i=0%}{% for item in posts%}myfunc('button#like{{i}}','button[name="like{{i}}"]','#badge{{i}}','button#dislike{{i}}',0);
+  myfunc('button#dislike{{i}}','button[name="dislike{{i}}"]','#badge{{i}}','button#like{{i}}',1);{%set i=i+1%}{%endfor%}
+});
+function myfunc(selector1,jsonsel,result,selector2,sel) {
+  $(selector1).bind('click', function() {
+    if(sel==0){
+      $.getJSON('/like', {
+        a: $(jsonsel).val()
+      }, function(data) {
+        $(result).text(data.result1+" Likes");
+        $(selector1).attr("disabled","true");
+        $(selector2).removeAttr("disabled");
+        if(data.shift == 1){
+          $(selector1).removeAttr("disabled");
+        }
+      });
+    }
+    else if(sel==1){
+      $.getJSON('/like', {
+        b: $(jsonsel).val()
+      }, function(data) {
+        $(result).text(data.result1+" Likes");
+        $(selector1).attr("disabled","true");
+        $(selector2).removeAttr("disabled");
+        if(data.shift == 1){
+          $(selector1).removeAttr("disabled");
+        }
+      });
+    }
+    return false;
+  });
+};
+
+</script>
 </head>
 <body class="animated">
 
@@ -39,7 +68,7 @@
         {% else %}
         <p>Showing {{posts|length}} result</p>
         {% endif %}
-        <form action="{{url_for('like')}}" method="POST">
+        
           <ul class="timeline">
           	{% if not posts %}
           	<li><i class="fa fa-globe purple"></i><span class="date"></span><div class="content"><p><strong>Admin: </strong> Oh No one has posted anything yet. Why don't you make one ?.</p></div></li>
@@ -54,9 +83,12 @@
               <!-- If statement here to check type of post i.e. if its a complaint/enhancement/request/rant -->
               <div class="content">
                 <p style="visibility:hidden">{{post[0]}}</p>
-                <p><strong>{{post[5]}}</strong> has complained:</p><span class="badge pull-right" id="badge" >{{post[4]}} Likes</span>
+                <p><strong>{{post[5]}}</strong> has complained:</p><span class="badge pull-right" id="badge{{i}}" >{{post[4]}} Likes</span>
                 <blockquote>
-                  <span class="label label-primary pull-right">Complaint</span> <img class="avatar" src="{{ url_for('static', filename='images/anonymous.png')}}"/><button class="btn btn-success" {%if activity[i]==1%}type="button" disabled=""{%endif%} name="like" value="like{{i}}"><i class="fa fa-thumbs-up"></i></button><button class="btn btn-danger" {%if activity[i]==0%}type="button" disabled=""{%endif%} name="like" value="dislike{{i}}"><i class="fa fa-thumbs-down"></i></button><input type="hidden" name="sno{{i}}" value="{{post[0]}}" >
+                  <span class="label label-primary pull-right">Complaint</span> <img class="avatar" src="{{ url_for('static', filename='images/anonymous.png')}}"/>
+                  <button class="btn btn-success" {%if activity[i]==1%}type="button" disabled=""{%endif%} name="like{{i}}" id="like{{i}}" value="{{post[0]}}"><i class="fa fa-thumbs-up"></i></button>
+                  <button class="btn btn-danger" {%if activity[i]==0%}type="button" disabled=""{%endif%} name="dislike{{i}}" id="dislike{{i}}" value="{{post[0]}}"><i class="fa fa-thumbs-down"></i></button>
+                  <input type="hidden" name="sno{{i}}" value="{{post[0]}}" >
                   <p>{{post[2]}}</p>
                   <small>{{post[5]}}</small>
                 </blockquote>
@@ -70,9 +102,12 @@
               <!-- If statement here to check type of post i.e. if its a complaint/enhancement/request/rant -->
               <div class="content">
                 <p style="visibility:hidden">{{post[0]}}</p>
-                <p><strong>{{post[5]}}</strong> has requested:</p><span class="badge pull-right" id="badge">{{post[4]}} Likes</span>
+                <p><strong>{{post[5]}}</strong> has requested:</p><span class="badge pull-right" id="badge{{i}}">{{post[4]}} Likes</span>
                 <blockquote>
-                  <span class="label label-warning pull-right">Request</span> <img class="avatar" src="{{ url_for('static', filename='images/anonymous.png')}}"/><button class="btn btn-success" {%if activity[i]==1%}type="button" disabled=""{%endif%} name="like" value="like{{i}}"><i class="fa fa-thumbs-up"></i></button><button class="btn btn-danger" {%if activity[i]==0%}type="button" disabled=""{%endif%} name="like" value="dislike{{i}}"><i class="fa fa-thumbs-down"></i></button><input type="hidden" name="sno{{i}}" value="{{post[0]}}" >
+                  <span class="label label-warning pull-right">Request</span> <img class="avatar" src="{{ url_for('static', filename='images/anonymous.png')}}"/>
+                  <button class="btn btn-success" {%if activity[i]==1%}type="button" disabled=""{%endif%} name="like{{i}}" id="like{{i}}" value="{{post[0]}}"><i class="fa fa-thumbs-up"></i></button>
+                  <button class="btn btn-danger" {%if activity[i]==0%}type="button" disabled=""{%endif%} name="dislike{{i}}" id="dislike{{i}}" value="{{post[0]}}"><i class="fa fa-thumbs-down"></i></button>
+                  <input type="hidden" name="sno{{i}}" value="{{post[0]}}" >
                   <p>{{post[2]}}</p>
                   <small>{{post[5]}}</small>
                 </blockquote>
@@ -87,9 +122,11 @@
               <div class="content">
                 <p style="visibility:hidden">{{post[0]}}</p>
                 <p><strong>{{post[5]}}</strong> has suggested:</p>
-                <span class="badge pull-right" id="badge">{{post[4]}} Likes</span>
+                <span class="badge pull-right" id="badge{{i}}">{{post[4]}} Likes</span>
                 <blockquote>
-                  <span class="label label-success pull-right">Enhancement</span> <img class="avatar" src="{{ url_for('static', filename='images/anonymous.png')}}"/><button class="btn btn-success" {%if activity[i]==1%}type="button" disabled=""{%endif%} name="like" value="like{{i}}"><i class="fa fa-thumbs-up"></i></button><button class="btn btn-danger" {%if activity[i]==0%}type="button" disabled=""{%endif%} name="like" value="dislike{{i}}"><i class="fa fa-thumbs-down"></i></button><input type="hidden" name="sno{{i}}" value="{{post[0]}}" >
+                  <span class="label label-success pull-right">Enhancement</span> <img class="avatar" src="{{ url_for('static', filename='images/anonymous.png')}}"/><button class="btn btn-success" {%if activity[i]==1%}type="button" disabled=""{%endif%} name="like{{i}}" id="like{{i}}" value="{{post[0]}}"><i class="fa fa-thumbs-up"></i></button>
+                  <button class="btn btn-danger" {%if activity[i]==0%}type="button" disabled=""{%endif%} name="dislike{{i}}" id="dislike{{i}}" value="{{post[0]}}"><i class="fa fa-thumbs-down"></i></button>
+                  <input type="hidden" name="sno{{i}}" value="{{post[0]}}" >
                   <p>{{post[2]}}</p>
                   <small>{{post[5]}}</small>
                 </blockquote>
@@ -104,9 +141,11 @@
               <div class="content">
                 <p style="visibility:hidden">{{post[0]}}</p>
                 <p><strong>{{post[5]}}</strong> has ranted:</p>
-                <span class="badge pull-right" id="badge">{{post[4]}} Likes</span>
+                <span class="badge pull-right" id="badge{{i}}">{{post[4]}} Likes</span>
                 <blockquote>
-                  <span class="label label-danger pull-right">Rant</span> <img class="avatar" src="{{ url_for('static', filename='images/anonymous.png')}}"/><button class="btn btn-success" {%if activity[i]==1%}type="button" disabled=""{%endif%} name="like" value="like{{i}}"><i class="fa fa-thumbs-up"></i></button><button class="btn btn-danger" {%if activity[i]==0%}type="button" disabled=""{%endif%} name="like" value="dislike{{i}}"><i class="fa fa-thumbs-down"></i></button><input type="hidden" name="sno{{i}}" value="{{post[0]}}" >
+                  <span class="label label-danger pull-right">Rant</span> <img class="avatar" src="{{ url_for('static', filename='images/anonymous.png')}}"/><button class="btn btn-success" {%if activity[i]==1%}type="button" disabled=""{%endif%} name="like{{i}}" id="like{{i}}" value="{{post[0]}}"><i class="fa fa-thumbs-up"></i></button>
+                  <button class="btn btn-danger" {%if activity[i]==0%}type="button" disabled=""{%endif%} name="dislike{{i}}" id="dislike{{i}}" value="{{post[0]}}"><i class="fa fa-thumbs-down"></i></button>
+                  <input type="hidden" name="sno{{i}}" value="{{post[0]}}" >
                   <p>{{post[2]}}</p>
                   <small>{{post[5]}}</small>
                 </blockquote>
@@ -186,7 +225,7 @@
           <button type="button" class="btn btn-warning" data-dismiss="modal">Close</button>
           <button type="submit" class="btn btn-success" >Post My Shout!</button>
         </div>
-        </form>
+        
       </div>
     </div>
   </div>  
