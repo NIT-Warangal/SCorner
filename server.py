@@ -190,7 +190,14 @@ def shout():
 	except ValueError:
 		page = 1
 	db = get_cursor()
-	sql = 'select * from AnonymousPosts order by Date desc'
+	start=0
+	per_page=3
+	if page==1:
+		start=0
+	else:
+		start=(page-1)*per_page
+	sql = 'select * from AnonymousPosts order by Date desc limit %s,%s'%(start,per_page)
+	print sql
 	db.execute(sql)
 	posts = db.fetchall()
 	db.execute("commit")
@@ -208,6 +215,10 @@ def shout():
 		activity.append(int(like))
 		i=i+1
 	pagination = Pagination(page = page ,per_page=5,total = i, search=search,record_name = 'posts',bs_version=3)
+	query='select Count(*) from anonymousposts'
+	db.execute(query)
+	total=int(db.fetchone()[0])
+	db.execute("commit")
 	return render_template('shout/screen.html',posts=posts,UName=app.config['USERNAME'],activity=activity,pagination=pagination) #show_entries
 
 #---------------Buy_Sell---------------
