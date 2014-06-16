@@ -1,6 +1,7 @@
 import os,binascii
 from flask import Flask, request, session, g, redirect, url_for, abort, \
      render_template, flash, jsonify
+from flask.ext.paginate import Pagination
 from flaskext.mysql import MySQL
 from config import config
 import datetime
@@ -93,7 +94,6 @@ def like():
 	b = request.args.get('b',0,type=int)
 	if a>0:
 		shift=0
-		print a
 		sql='select * from like_history where sno=%s and username="%s"'%(a,app.config['USERNAME'])
 		db.execute(sql)
 		result=db.fetchone()
@@ -180,23 +180,34 @@ def mainscreen():
 		
 @app.route("/shout")
 def shout():
-    db = get_cursor()
-    sql = 'select * from AnonymousPosts order by Date desc'
-    db.execute(sql)
-    posts = db.fetchall()
-    db.execute("commit")
-    activity=[]
-    for post in posts:
-    	sql='select activity from like_history where sno=%s and username="%s"'%(post[0],app.config['USERNAME'])
-    	db.execute(sql)
-    	result=db.fetchone()
-    	db.execute("commit")
-    	if result is None:
-    		like=-1
-    	else:
-    		like=int(result[0])
-    	activity.append(int(like))
-    return render_template('shout/screen.html',posts=posts,UName=app.config['USERNAME'],activity=activity) #show_entries
+	search=False
+	q=request.args.get('q')
+	if q:
+		search=True
+	try:
+		page = int(request.args.get('page',1))
+	except ValueError:
+		page = 1
+	db = get_cursor()
+	sql = 'select * from AnonymousPosts order by Date desc'
+	db.execute(sql)
+	posts = db.fetchall()
+	db.execute("commit")
+	activity=[]
+	i=0
+	for post in posts:
+		sql='select activity from like_history where sno=%s and username="%s"'%(post[0],app.config['USERNAME'])
+		db.execute(sql)
+		result=db.fetchone()
+		db.execute("commit")
+		if result is None:
+			like=-1
+		else:
+			like=int(result[0])
+		activity.append(int(like))
+		i=i+1
+	pagination = Pagination(page = page ,per_page=1,total = i, search=search,record_name = 'posts',bs_version=3)
+	return render_template('shout/screen.html',posts=posts,UName=app.config['USERNAME'],activity=activity,pagination=pagination) #show_entries
 #---------------Buy_Sell---------------
 
 @app.route('/bechde')

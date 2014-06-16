@@ -39,8 +39,25 @@ function myfunc(selector1,jsonsel,result,selector2,sel) {
     return false;
   });
 };
-
 </script>
+<style type="text/css">
+.pagination-page-info {
+    padding: .6em;
+    padding-left: 0;
+    width: 40em;
+    margin: .5em;
+    margin-left: 0;
+    font-size: 12px;
+}
+.pagination-page-info b {
+    color: black;
+    background: #6aa6ed;
+    padding-left: 2px;
+    padding: .1em .25em;
+    font-size: 150%;
+}
+
+</style>
 </head>
 <body class="animated">
 
@@ -62,13 +79,9 @@ function myfunc(selector1,jsonsel,result,selector2,sel) {
       </form>
     <div class="row">
     	<div class="col-md-1"></div>
-      <div class="col-md-10">
-        {% if posts|length > 1 or posts|length == 0 %}
-        <p>Showing {{posts|length}} results</p>
-        {% else %}
-        <p>Showing {{posts|length}} result</p>
-        {% endif %}
-        
+      <div class="col-md-10">        
+        {{ pagination.info|safe }}
+        {{ pagination.links|safe }}
           <ul class="timeline">
           	{% if not posts %}
           	<li><i class="fa fa-globe purple"></i><span class="date"></span><div class="content"><p><strong>Admin: </strong> Oh No one has posted anything yet. Why don't you make one ?.</p></div></li>
@@ -154,6 +167,7 @@ function myfunc(selector1,jsonsel,result,selector2,sel) {
             {% endif %}
             {%set i=i+1%}
             {% endfor %}
+                 {{ pagination.links|safe }}
           </ul>
         </form>
       </div>
