@@ -169,7 +169,7 @@ def filter():
 		start=(page-1)*per_page
 	sql = 'select * from AnonymousPosts order by Date desc limit %s,%s'%(start,per_page)
 	if filter_num>0:
-		sql='select * from AnonymousPosts where Type=%s'%(filter_num)
+		sql='select * from AnonymousPosts where Type=%s limit %s,%s'%(filter_num,start,per_page)
 	db.execute(sql)
 	posts=db.fetchall()
 	db.execute("commit")
@@ -186,7 +186,9 @@ def filter():
 			like=int(result[0])
 		activity.append(int(like))
 		i=i+1
-	query='select Count(*) from anonymousposts where Type=%s'%(filter_num)
+	query='select Count(*) from anonymousposts'
+	if filter_num>0:
+		query='select Count(*) from anonymousposts where Type=%s'%(filter_num)
 	db.execute(query)
 	total=int(db.fetchone()[0])
 	db.execute("commit")
