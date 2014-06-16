@@ -80,7 +80,6 @@ function myfunc(selector1,jsonsel,result,selector2,sel) {
     <div class="row">
     	<div class="col-md-1"></div>
       <div class="col-md-10">        
-        {{ pagination.info|safe }}
         {{ pagination.links|safe }}
           <ul class="timeline">
           	{% if not posts %}
@@ -167,7 +166,7 @@ function myfunc(selector1,jsonsel,result,selector2,sel) {
             {% endif %}
             {%set i=i+1%}
             {% endfor %}
-                 {{ pagination.links|safe }}
+            {{ pagination.links|safe }}
           </ul>
         </form>
       </div>

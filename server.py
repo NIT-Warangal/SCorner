@@ -63,6 +63,7 @@ def login():
 	error = None
 	db = get_cursor()
 	session['temp']=0
+	session.permanent = True
 	if request.method=='POST':
 		uname=str(request.form['username'])
 		pwd=str(request.form['password'])
@@ -206,8 +207,9 @@ def shout():
 			like=int(result[0])
 		activity.append(int(like))
 		i=i+1
-	pagination = Pagination(page = page ,per_page=1,total = i, search=search,record_name = 'posts',bs_version=3)
+	pagination = Pagination(page = page ,per_page=5,total = i, search=search,record_name = 'posts',bs_version=3)
 	return render_template('shout/screen.html',posts=posts,UName=app.config['USERNAME'],activity=activity,pagination=pagination) #show_entries
+
 #---------------Buy_Sell---------------
 
 @app.route('/bechde')
