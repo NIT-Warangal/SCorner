@@ -3,8 +3,8 @@
 {% block body %}
 {% if session.logged_in %}
 <head>
-	<title>College Feed</title>
-	<link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/style.css') }}">    
+  <title>College Feed</title>
+  <link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/style.css') }}">    
 <script type="text/javascript">
 $(document).ready(function() {
   {%set i=0%}{% for item in posts%}myfunc('button#like{{i}}','button[name="like{{i}}"]','#badge{{i}}','button#dislike{{i}}',0);
@@ -62,10 +62,10 @@ function myfunc(selector1,jsonsel,result,selector2,sel) {
 <body class="animated">
 
 <div id="cl-wrapper">
-	<div class="container-fluid" id="pcont">
+  <div class="container-fluid" id="pcont">
   
     
-	<div class="cl-mcont">
+  <div class="cl-mcont">
     <h2 style="text-align:center;">The Shout Box</h2>
     <form action="/filter" method="POST">
       <select class="form-control input-md pull-right" style="width:300px;margin-top:-40px;" name="filter" onchange="this.form.submit()">
@@ -78,17 +78,18 @@ function myfunc(selector1,jsonsel,result,selector2,sel) {
       </select>
       </form>
     <div class="row">
-    	<div class="col-md-1"></div>
+      <div class="col-md-1"></div>
       <div class="col-md-10">        
+        
         {{ pagination.links|safe }}
           <ul class="timeline">
-          	{% if not posts %}
-          	<li><i class="fa fa-globe purple"></i><span class="date"></span><div class="content"><p><strong>Admin: </strong> Oh No one has posted anything yet. Why don't you make one ?.</p></div></li>
-          	{% endif %}
+            {% if not posts %}
+            <li><i class="fa fa-globe purple"></i><span class="date"></span><div class="content"><p><strong>Admin: </strong> Oh No one has posted anything yet. Why don't you make one ?.</p></div></li>
+            {% endif %}
             {%set i=0%}
             {%set like="type='button'"%}
-          	{% for post in posts %}
-          	{% if post[3] == 1 %}
+            {% for post in posts %}
+            {% if post[3] == 1 %}
             <li>
               <i class="fa fa-comment"></i>
               <span class="date">{{post[1].strftime('%d %b')}}</span>
@@ -166,12 +167,12 @@ function myfunc(selector1,jsonsel,result,selector2,sel) {
             {% endif %}
             {%set i=i+1%}
             {% endfor %}
-            {{ pagination.links|safe }}
+                 {{ pagination.links|safe }}
           </ul>
         </form>
       </div>
       <div class="col-md-1">
-      	<p><button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#post">Post!!</button></p>
+        <p><button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#post">Post!!</button></p>
       </div>
       <!-- <div class="col-md-5">         
           <div class="block widget-notes">
@@ -184,11 +185,11 @@ function myfunc(selector1,jsonsel,result,selector2,sel) {
           </div>
       </div> -->
     </div>
-	</div>
-	</div>
-	
-	</div> 
-	
+  </div>
+  </div>
+  
+  </div> 
+  
 </div>
   <div class="modal fade colored-header" id="post" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -254,8 +255,8 @@ function myfunc(selector1,jsonsel,result,selector2,sel) {
 
 {% else %}
 <div class="jumbotron">
-	<h1>You better be logged in. No Spamming.</h1>
-	<a href="/login">Login</a>
+  <h1>You better be logged in. No Spamming.</h1>
+  <a href="/login">Login</a>
 </div>
 {% endif %}
 {% endblock %}
