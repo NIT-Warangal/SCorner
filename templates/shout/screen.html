@@ -8,7 +8,7 @@
 <script type="text/javascript">
 $(document).ready(function() {
   {%set i=0%}{% for item in posts%}myfunc('button#like{{i}}','button[name="like{{i}}"]','#badge{{i}}','button#dislike{{i}}',0);
-  myfunc('button#dislike{{i}}','button[name="dislike{{i}}"]','#badge{{i}}','button#like{{i}}',1);{%set i=i+1%}{%endfor%}
+  myfunc('button#dislike{{i}}','button[name="dislike{{i}}"]','#badge{{i}}','button#like{{i}}',1);$('#badge{{i}}').css("margin-top","-20px;");{%set i=i+1%}{%endfor%}
 });
 function myfunc(selector1,jsonsel,result,selector2,sel) {
   $(selector1).bind('click', function() {
@@ -51,8 +51,8 @@ function myfunc(selector1,jsonsel,result,selector2,sel) {
 	<div class="cl-mcont">
     <h2 style="text-align:center;">The Shout Box</h2>
     <form action="/filter" method="POST">
-      <select class="form-control pull-right" style="width:300px;margin-top:-40px;" name="filter" onchange="this.form.submit()">
-        <option>Select one</option>
+      <select class="form-control input-md pull-right" style="width:300px;margin-top:-40px;" name="filter" onchange="this.form.submit()">
+        <option >Select one</option>
         <option value="-1">All</option>
         {%set categories=['Complaint','Request','Enhancement','Rant']%}
         {%for i in range(0,categories|length)%}
