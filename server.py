@@ -152,15 +152,29 @@ def logout():
 
 @app.route("/filter",methods=['POST'])
 def filter():
+	search=False
+	q=request.args.get('q')
+	if q:
+		search=True
+	try:
+		page = int(request.args.get('page',1))
+	except ValueError:
+		page = 1
 	db=get_cursor()
 	filter_num=int(request.form['filter'])
-	sql = 'select * from AnonymousPosts order by Date desc'
+	per_page=10
+	if page==1:
+		start=0
+	else:
+		start=(page-1)*per_page
+	sql = 'select * from AnonymousPosts order by Date desc limit %s,%s'%(start,per_page)
 	if filter_num>0:
 		sql='select * from AnonymousPosts where Type=%s'%(filter_num)
 	db.execute(sql)
 	posts=db.fetchall()
 	db.execute("commit")
 	activity=[]
+	i=0
 	for post in posts:
 		sql='select activity from like_history where sno=%s and username="%s"'%(post[0],app.config['USERNAME'])
 		db.execute(sql)
@@ -171,7 +185,13 @@ def filter():
 		else:
 			like=int(result[0])
 		activity.append(int(like))
-	return render_template('shout/screen.html',posts=posts,UName=app.config['USERNAME'],activity=activity) #show_entries
+		i=i+1
+	query='select Count(*) from anonymousposts where Type=%s'%(filter_num)
+	db.execute(query)
+	total=int(db.fetchone()[0])
+	db.execute("commit")
+	pagination = Pagination(page = page ,per_page=per_page,total = total, search=search,record_name = 'posts',bs_version=3)
+	return render_template('shout/screen.html',posts=posts,UName=app.config['USERNAME'],activity=activity,pagination=pagination) #show_entries
 
 @app.route("/")
 def mainscreen():
