@@ -4,7 +4,7 @@ from flask import Flask, request, session, g, redirect, url_for, abort, \
 from flask.ext.paginate import Pagination
 from flaskext.mysql import MySQL
 from config import config
-import datetime
+import datetime,json
 
 mysql = MySQL()
 # create our little application :)
@@ -23,6 +23,10 @@ def get_cursor():
 @app.errorhandler(404)
 def page_not_found(e):
     return render_template('404.html'), 404
+
+@app.errorhandler(500)
+def special_exception_handler(error):
+    return 'Database connection failed', 500
 
 @app.teardown_appcontext
 def close_db():
@@ -163,6 +167,43 @@ def like():
 		res=db.fetchone()[0]
 		return jsonify(result1=res,shift=shift)
 
+@app.route('/users', strict_slashes=False)
+def allusers():
+	db=get_cursor()
+	sql = 'select * from Profile'
+	db.execute(sql)
+	users = db.fetchall()
+	if not users:
+		flash('No users in database')
+		return redirect(url_for('shout'))
+	else:
+		return render_template('users.html',users=users)
+
+# Query for users profile - API using Sno present in database
+@app.route('/users/<id_no>', strict_slashes=False)
+def users(id_no):
+	db=get_cursor()
+	sql = 'select * from Profile where Sno=%s'%id_no
+	db.execute(sql)
+	user = db.fetchone()
+	if not user:
+		flash('User '+id_no+' not found')
+		return redirect(url_for('shout'))
+	else:
+		return render_template('shout/profile.html',user=user)
+
+# Query for users profile - API using Email registered to user
+@app.route('/e-users/<id_email>', strict_slashes=False)
+def usersemail(id_email):
+	db=get_cursor()
+	sql = 'select * from Profile where Email="%s"'%id_email
+	db.execute(sql)
+	user = db.fetchone()
+	if not user:
+		flash('Email '+id_email+' not found')
+		return redirect(url_for('shout'))
+	else:
+		return render_template('shout/profile.html',user=user)
 
 @app.route('/logout')
 def logout():
