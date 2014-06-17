@@ -58,6 +58,31 @@ def postit():
 			return redirect(url_for('shout'))
 	return redirect(url_for('shout'))
 
+@app.route("/register")
+def register():
+	return render_template('global/register.html')
+
+@app.route("/add",methods=['POST'])
+def add():
+	error = None
+	db=get_cursor()
+	if request.method=='POST':
+		uname = str(request.form['username'])
+		rollno = str(request.form['rollno'])
+		pwd = str(request.form['password1'])
+		confirm = str(request.form['password2'])
+		email = str(request.form['email'])
+		if pwd == confirm:
+			sql = 'insert into Login (RollNo,UserName,Password,Role,Email) values ("%s","%s",MD5("%s"),"%s","%s")'%(rollno,uname,pwd,2,email)
+			db.execute(sql)
+			db.execute("commit")
+			flash("Registered Successfully.")
+			return redirect(url_for('login'))
+		else:
+			flash("Failed. Check again")
+			return redirect(url_for('register'))
+	return redirect(url_for('register'))
+
 @app.route("/login",methods = ['GET','POST'])
 def login():
 	error = None
