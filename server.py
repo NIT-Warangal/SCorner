@@ -5,7 +5,7 @@ from flask import Flask, request, session, g, redirect, url_for, abort, \
 from flask.ext.paginate import Pagination
 from flaskext.mysql import MySQL
 from config import config
-import datetime,json
+import datetime,json,hashlib
 
 mysql = MySQL()
 # create our little application :)
@@ -179,7 +179,10 @@ def allusers():
 		flash('No users in database')
 		return redirect(url_for('shout'))
 	else:
-		return render_template('users.html',users=users)
+		gravatar=[]
+		for user in users:
+			gravatar.append(hashlib.md5(user[5]).hexdigest())
+		return render_template('users.html',users=users,gravatar=gravatar)
 
 # Query for users profile - API using Sno present in database
 @app.route('/users/<id_no>', strict_slashes=False)
@@ -192,7 +195,8 @@ def users(id_no):
 		flash('User '+id_no+' not found')
 		return redirect(url_for('shout'))
 	else:
-		return render_template('shout/profile.html',user=user)
+		gravatar=hashlib.md5(user[5]).hexdigest()
+		return render_template('shout/profile.html',user=user,gravatar=gravatar)
 
 # Query for users profile - API using Email registered to user
 @app.route('/e-users/<id_email>', strict_slashes=False)

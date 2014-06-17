@@ -1,41 +1,39 @@
 <!DOCTYPE html>
 <html>
-<head>
-<link rel="stylesheet" type="text/css" href="{{url_for('static',filename='css/bootstrap.css')}}">
-<link rel=stylesheet type=text/css href="{{ url_for('static', filename='fonts/font-awesome-4/css/font-awesome.min.css') }}">
-<style type="text/css">
-#box>a
-{
-	text-decoration:none; 
-}
-</style>
-</head>
-<body style="overflow:hidden;" class="animated">
-
-<center style="margin-top:50px;">
-<div class="jumbotron">
-	<h1>Welcome to SCorner.</h1><br>
-	{%if session.logged_in %}
-	<blockquote>(For the students, of the students and by the students)</blockquote>
+	<head>
+		<link rel="stylesheet" type="text/css" href="{{url_for('static',filename='css/bootstrap.css')}}">
+		<link rel=stylesheet type=text/css href="{{ url_for('static', filename='fonts/font-awesome-4/css/font-awesome.min.css') }}">
+		<style type="text/css">
+		#box>a
+		{
+			text-decoration:none;
+		}
+		</style>
+	</head>
+	<body style="overflow:hidden;" class="animated">
+		<center style="margin-top:50px;">
+		<div class="jumbotron">
+			<h1>Welcome to SCorner.</h1><br>
+			{%if session.logged_in %}
+		<blockquote>(For the students, of the students and by the students)</blockquote>
 	{% else %}
-	 <h3>Please SignUp/SignIn to use this.</h3>
+		<h3>Please SignUp/SignIn to use this.</h3>
+		<div class="container">
+			<a class="btn btn-lg btn-success" href="{{url_for('login')}}">Sign In</a>
+			<span><a class="btn btn-lg btn-primary" href="#">Register</a></span>
+		</div>
+		{%endif%}
+	</div>
 	<div class="container">
-		<a class="btn btn-lg btn-success" href="{{url_for('login')}}">Sign In</a>
-		<span><a class="btn btn-lg btn-primary" href="#">Register</a></span>
+		<div class="row">
+			<div class="col-md-5 col-md-offset-1" id="box">
+				<a class="fa fa-group" href="{{url_for('shout')}}" style="font-size:40px;color:steelblue;">Shout Box</a>
+			</div>
+			<div class="col-md-5" id="box">
+				<a class="fa fa-shopping-cart" href="{{url_for('bechde')}}" style="font-size:40px;color:#D7777B;">Bech De!</a>
+			</div>
+		</div>
 	</div>
-	{%endif%}
-</div>
-<div class="container">
-<div class="row">
-	<div class="col-md-5 col-md-offset-1" id="box">
-		<a class="fa fa-group" href="{{url_for('shout')}}" style="font-size:40px;color:steelblue;">Shout Box</a>
-	</div>
-	<div class="col-md-5" id="box">
-		<a class="fa fa-shopping-cart" href="{{url_for('bechde')}}" style="font-size:40px;color:#D7777B;">Bech De!</a>
-	</div>
-</div>
-</div>
-</center>		
-
+	</center>
 </body>
 </html>
