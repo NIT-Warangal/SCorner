@@ -352,8 +352,11 @@ def store():
 @app.route('/filter_store',methods=['POST'])
 def filter_store():
 	db=get_cursor()
-	category=request.form['filter']
-	sql='select * from store where categoryid="%s"'%(category)
+	category=int(request.form['filter'])
+	if category>0:
+		sql='select * from store where categoryid="%s"'%(category)
+	elif category==0:
+		sql="select * from store"
 	db.execute(sql)
 	entries=db.fetchall()
 	uploader=[]
