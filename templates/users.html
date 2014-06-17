@@ -23,6 +23,7 @@
 					<th>Year</th>
 					<th>Email</th>
 					<th>Address</th>
+					<th></th>
 					</tr>
 				</thead>
 				<tbody class="no-border-x no-border-y">
@@ -35,6 +36,7 @@
 						<td>{{user[4]}}</td>
 						<td>{{user[5]}}</td>
 						<td>{{user[6]}}</td>
+						<td><a href="/users/{{user[0]}}" class="btn btn-info">View Profile</a></td>
 					</tr>
 					{% endfor %}
 				</tbody>
