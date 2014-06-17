@@ -13,7 +13,7 @@
                                 <p class="lead">Filter Categories</p>
                                 <form action="{{url_for('filter_store')}}" method="POST">
                                     <div class="list-group">
-                                        <button type="submit" value="0" class="list-group-item" style="width:100%;" name="filter">All</button>
+                                        <a class="list-group-item" href="{{url_for('store')}}" style="text-align:center;">All</a>
                                         {%for entry in filter_cat%}
                                         <button type="submit" value="{{entry[0]}}" class="list-group-item" style="width:100%;" name="filter">{{entry[1]}}</button>
                                         {%endfor%}

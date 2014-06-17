@@ -113,13 +113,15 @@
         {{message}}
       </div>
     {% endfor %}
-    {%if session.logged_in%}
+    
     {%block body%}{%endblock%}
+    {%if session.logged_in%}
+    <center><h1>Good you can upload items or view details of uploaders</h1></center>
     {%else%}
     <div class="jumbotron">
       <center>
-      <h1>View of the store before logging in!</h1>
-      <a href="{{url_for('login')}}" class="btn btn-lg btn-success">Login</a>
+      <h1>Please Login/Register to enjoy the features of store!</h1>
+      <a href="{{url_for('login')}}" class="btn btn-lg btn-success">Login</a><span><a href="{{url_for('register')}}" class="btn btn-lg btn-danger">Register</a></span>
       </center>
     </div>
     {%endif%}

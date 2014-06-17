@@ -331,8 +331,18 @@ def show_item_profile(itemID):
 	db.execute(sql)
 	uploader=db.fetchone()
 	db.execute("commit")
-	return render_template('buysell/item_description.html',details=details,uploader=uploader)
+	is_user_uploader=False
+	if int(details[1])==int(uploader[0]) and int(details[1])==app.config['USERID']:
+		is_user_uploader = True
+	return render_template('buysell/item_description.html',details=details,uploader=uploader,is_user_uploader=is_user_uploader)
 
+@app.route('/item/sold/<itemID>',methods=['POST'])
+def sold(itemID):
+	db=get_cursor()
+	sql='update store set available=0 where itemID=%s'%(itemID)
+	db.execute(sql)
+	db.execute("commit")
+	return redirect(url_for('show_item_profile',itemID=itemID))
 @app.route('/store')
 def store():
 	db=get_cursor()
@@ -357,10 +367,7 @@ def store():
 def filter_store():
 	db=get_cursor()
 	category=int(request.form['filter'])
-	if category>0:
-		sql='select * from store where categoryid="%s"'%(category)
-	elif category==0:
-		sql="select * from store"
+	sql='select * from store where categoryid="%s"'%(category)
 	db.execute(sql)
 	entries=db.fetchall()
 	uploader=[]
