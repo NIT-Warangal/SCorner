@@ -89,6 +89,7 @@ def add():
 
 @app.route("/login",methods = ['GET','POST'])
 def login():
+	ip = request.remote_addr
 	error = None
 	db = get_cursor()
 	session['temp']=0
@@ -115,7 +116,7 @@ def login():
 			app.config['USERID'] = uid
 			flash('You were logged in ')
 			return redirect(url_for('mainscreen'))
-	return render_template('global/login.html', error=error,UName=app.config['USERNAME'])
+	return render_template('global/login.html', error=error,UName=app.config['USERNAME'],user_ip=ip)
 
 @app.route('/like')
 def like():
@@ -358,4 +359,4 @@ def filter_store():
 if __name__ == "__main__":
 	app.debug = True
 	app.secret_key=os.urandom(24)
-	app.run()
+	app.run(host='0.0.0.0')
