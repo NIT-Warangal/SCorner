@@ -1,4 +1,49 @@
-{% for value in user %}
-<p>{{value}}</p>
-{% endfor %}
-<img src="https://www.gravatar.com/avatar/{{gravatar}}">
+{% extends "shout/layout.html" %}
+<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,400italic,700,800' rel='stylesheet' type='text/css'>
+<link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/bootstrap.css') }}">
+<link rel=stylesheet type=text/css href="{{ url_for('static', filename='fonts/font-awesome-4/css/font-awesome.min.css') }}">
+<link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/style.css') }}">
+<script src="{{ url_for('static', filename='js/jquery.js') }}" type="text/javascript"></script>
+<script src="{{ url_for('static', filename='js/bootstrap.min.js') }}" type="text/javascript"></script>
+{% block body %}
+<div class="cl-mcont">
+<div class="row">
+<div class="col-sm-12">
+        <div class="block-flat profile-info">
+          <div class="row">
+            <div class="col-sm-2">
+              <div class="avatar">
+                <img src="https://www.gravatar.com/avatar/{{gravatar}}?d=identicon&f=y" class="profile-avatar">
+              </div>
+            </div>
+            <div class="col-sm-5">
+              <div class="personal">
+                <h1 class="name">{{user[2]}}</h1>
+                <p class="description">{{user[6]}}</p><p>
+                <button class="btn btn-primary btn-flat btn-rad" data-modal="reply-ticket"><i class="fa fa-globe"></i>{{user[4]}} Year</button>
+              </p></div>
+            </div>
+            <div class="col-sm-5">
+              <table class="no-border no-strip skills">
+                <tbody class="no-border-x no-border-y">
+                  <tr>
+                    <td style="width:45%;">Email</td>
+                    <td>{{user[5]}}</td>
+                  </tr>
+                  <tr>
+                    <td>Phone Number</td>
+                    <td>{{user[3]}}</td>
+                  </tr>
+                  <tr>
+                    <td>Address</td>
+                    <td>{{user[6]}}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+   </div>
+{% endblock %}
