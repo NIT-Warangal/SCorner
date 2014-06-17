@@ -67,7 +67,7 @@ function myfunc(selector1,jsonsel,result,selector2,sel) {
     
   <div class="cl-mcont">
     <h2 style="text-align:center;">The Shout Box</h2>
-    <form action="/filter" method="POST">
+    <form action="/filter" method="GET">
       <select class="form-control input-md pull-right" style="width:300px;margin-top:-40px;" name="filter" onchange="this.form.submit()">
         <option >Select one</option>
         <option value="-1">All</option>
@@ -101,7 +101,6 @@ function myfunc(selector1,jsonsel,result,selector2,sel) {
                   <span class="label label-primary pull-right">Complaint</span> <img class="avatar" src="{{ url_for('static', filename='images/anonymous.png')}}"/>
                   <button class="btn btn-success" {%if activity[i]==1%}type="button" disabled=""{%endif%} name="like{{i}}" id="like{{i}}" value="{{post[0]}}"><i class="fa fa-thumbs-up"></i></button>
                   <button class="btn btn-danger" {%if activity[i]==0%}type="button" disabled=""{%endif%} name="dislike{{i}}" id="dislike{{i}}" value="{{post[0]}}"><i class="fa fa-thumbs-down"></i></button>
-                  <input type="hidden" name="sno{{i}}" value="{{post[0]}}" >
                   <p>{{post[2]}}</p>
                   <small>{{post[5]}}</small>
                 </blockquote>
@@ -120,7 +119,6 @@ function myfunc(selector1,jsonsel,result,selector2,sel) {
                   <span class="label label-warning pull-right">Request</span> <img class="avatar" src="{{ url_for('static', filename='images/anonymous.png')}}"/>
                   <button class="btn btn-success" {%if activity[i]==1%}type="button" disabled=""{%endif%} name="like{{i}}" id="like{{i}}" value="{{post[0]}}"><i class="fa fa-thumbs-up"></i></button>
                   <button class="btn btn-danger" {%if activity[i]==0%}type="button" disabled=""{%endif%} name="dislike{{i}}" id="dislike{{i}}" value="{{post[0]}}"><i class="fa fa-thumbs-down"></i></button>
-                  <input type="hidden" name="sno{{i}}" value="{{post[0]}}" >
                   <p>{{post[2]}}</p>
                   <small>{{post[5]}}</small>
                 </blockquote>
@@ -139,7 +137,6 @@ function myfunc(selector1,jsonsel,result,selector2,sel) {
                 <blockquote>
                   <span class="label label-success pull-right">Enhancement</span> <img class="avatar" src="{{ url_for('static', filename='images/anonymous.png')}}"/><button class="btn btn-success" {%if activity[i]==1%}type="button" disabled=""{%endif%} name="like{{i}}" id="like{{i}}" value="{{post[0]}}"><i class="fa fa-thumbs-up"></i></button>
                   <button class="btn btn-danger" {%if activity[i]==0%}type="button" disabled=""{%endif%} name="dislike{{i}}" id="dislike{{i}}" value="{{post[0]}}"><i class="fa fa-thumbs-down"></i></button>
-                  <input type="hidden" name="sno{{i}}" value="{{post[0]}}" >
                   <p>{{post[2]}}</p>
                   <small>{{post[5]}}</small>
                 </blockquote>
@@ -158,7 +155,6 @@ function myfunc(selector1,jsonsel,result,selector2,sel) {
                 <blockquote>
                   <span class="label label-danger pull-right">Rant</span> <img class="avatar" src="{{ url_for('static', filename='images/anonymous.png')}}"/><button class="btn btn-success" {%if activity[i]==1%}type="button" disabled=""{%endif%} name="like{{i}}" id="like{{i}}" value="{{post[0]}}"><i class="fa fa-thumbs-up"></i></button>
                   <button class="btn btn-danger" {%if activity[i]==0%}type="button" disabled=""{%endif%} name="dislike{{i}}" id="dislike{{i}}" value="{{post[0]}}"><i class="fa fa-thumbs-down"></i></button>
-                  <input type="hidden" name="sno{{i}}" value="{{post[0]}}" >
                   <p>{{post[2]}}</p>
                   <small>{{post[5]}}</small>
                 </blockquote>

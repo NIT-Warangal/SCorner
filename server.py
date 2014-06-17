@@ -175,7 +175,7 @@ def logout():
             flash('Welcome Back!')
     return redirect(url_for('shout'))
 
-@app.route("/filter",methods=['POST'])
+@app.route("/filter",methods=['GET'])
 def filter():
 	search=False
 	q=request.args.get('q')
@@ -186,8 +186,8 @@ def filter():
 	except ValueError:
 		page = 1
 	db=get_cursor()
-	filter_num=int(request.form['filter'])
-	per_page=10
+	filter_num=request.args.get('filter',-1,type=int)
+	per_page=2
 	if page==1:
 		start=0
 	else:
@@ -195,6 +195,7 @@ def filter():
 	sql = 'select * from AnonymousPosts order by Date desc limit %s,%s'%(start,per_page)
 	if filter_num>0:
 		sql='select * from AnonymousPosts where Type=%s limit %s,%s'%(filter_num,start,per_page)
+	print sql
 	db.execute(sql)
 	posts=db.fetchall()
 	db.execute("commit")
@@ -214,6 +215,7 @@ def filter():
 	query='select Count(*) from anonymousposts'
 	if filter_num>0:
 		query='select Count(*) from anonymousposts where Type=%s'%(filter_num)
+	print query
 	db.execute(query)
 	total=int(db.fetchone()[0])
 	db.execute("commit")
@@ -237,7 +239,7 @@ def shout():
 		page = 1
 	db = get_cursor()
 	start=0
-	per_page=10
+	per_page=2
 	if page==1:
 		start=0
 	else:
