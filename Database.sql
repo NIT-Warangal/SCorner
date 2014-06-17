@@ -117,3 +117,18 @@ CREATE TABLE IF NOT EXISTS `like_history` (
   `username` text NOT NULL,
   `activity` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+
+--
+-- Table structure for table `comments`
+--
+
+CREATE TABLE IF NOT EXISTS `comments` (
+  `commentID` int(11) NOT NULL AUTO_INCREMENT,
+  `sno` int(11) NOT NULL,
+  `date` datetime NOT NULL,
+  `userID` int(11) NOT NULL,
+  `username` text NOT NULL,
+  `content` text NOT NULL,
+  PRIMARY KEY (`commentID`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;

@@ -257,6 +257,7 @@ def filter():
 	posts=db.fetchall()
 	db.execute("commit")
 	activity=[]
+	comments=[]
 	i=0
 	for post in posts:
 		sql='select activity from like_history where sno=%s and username="%s"'%(post[0],app.config['USERNAME'])
@@ -268,6 +269,9 @@ def filter():
 		else:
 			like=int(result[0])
 		activity.append(int(like))
+		sql='select * from comments where sno=%s order by date'%(post[0])
+		db.execute(sql)
+		comments.append(db.fetchall())
 		i=i+1
 	query='select Count(*) from anonymousposts'
 	if filter_num>0:
@@ -277,7 +281,20 @@ def filter():
 	total=int(db.fetchone()[0])
 	db.execute("commit")
 	pagination = Pagination(page = page ,per_page=per_page,total = total, search=search,record_name = 'posts',bs_version=3)
-	return render_template('shout/screen.html',posts=posts,UName=app.config['USERNAME'],activity=activity,pagination=pagination) #show_entries
+	return render_template('shout/screen.html',posts=posts,UName=app.config['USERNAME'],activity=activity,pagination=pagination,comments=comments) #show_entries
+
+@app.route('/comment',methods=['POST'])
+def comment():
+	db=get_cursor()
+	postid=int(request.form['comment'])
+	now=datetime.datetime.now()
+	userid=app.config['USERID']
+	uname=app.config['USERNAME']
+	content=request.form['comment_content']
+	sql='insert into comments(`sno`, `date`, `userID`,`userName`, `content`) values(%s,"%s",%s,"%s","%s")'%(postid,now,userid,uname,content)
+	db.execute(sql)
+	db.execute("commit")
+	return redirect(url_for('shout'))
 
 @app.route("/")
 def mainscreen():
@@ -306,6 +323,7 @@ def shout():
 	posts = db.fetchall()
 	db.execute("commit")
 	activity=[]
+	comments=[]
 	i=0
 	for post in posts:
 		sql='select activity from like_history where sno=%s and username="%s"'%(post[0],app.config['USERNAME'])
@@ -317,13 +335,16 @@ def shout():
 		else:
 			like=int(result[0])
 		activity.append(int(like))
+		sql='select * from comments where sno=%s order by date'%(post[0])
+		db.execute(sql)
+		comments.append(db.fetchall())
 		i=i+1
 	query='select Count(*) from anonymousposts'
 	db.execute(query)
 	total=int(db.fetchone()[0])
 	db.execute("commit")
 	pagination = Pagination(page = page ,per_page=per_page,total = total, search=search,record_name = 'posts',bs_version=3)
-	return render_template('shout/screen.html',posts=posts,UName=app.config['USERNAME'],activity=activity,pagination=pagination) #show_entries
+	return render_template('shout/screen.html',posts=posts,UName=app.config['USERNAME'],activity=activity,pagination=pagination,comments=comments) #show_entries
 #---------------Buy_Sell---------------
 @app.route('/bechde')
 def bechde():
