@@ -1,0 +1,107 @@
+{%extends "buysell/index.html"%}
+{%block body%}
+<style type="text/css">
+
+.thumbnail img {
+  width: 100%;
+}
+
+.ratings {
+  color: #d17581;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.thumbnail {
+  padding: 0;
+}
+
+.thumbnail .caption-full {
+  padding: 9px;
+  color: #333;
+}
+
+</style>
+    <div class="container">
+    	<center><h1>The eStore</h1></center>
+        <div class="row">
+
+            <div class="col-md-3">
+                <p class="lead">Uploader's Details</p><hr>
+                <dl class="dl-vertical">
+                    <dt>Roll Number:</dt>
+                    <dd>{{uploader[1]}}</dd>
+                    <dt>Name : </dt>
+                    <dd>{{uploader[2]}}</dd>
+                    <dt>Phone:</dt>
+                    <dd>{{uploader[3]}}</dd>
+                    <dt>Year</dt>
+                    {%set year='st'%}
+                    {%if uploader[4]==2%}{%set year='nd'%}{%elif uploader[4]==3%}{%set year='rd'%}{%else%}{%set year='th'%}{%endif%}
+                    <dd>{{uploader[4]}}{{year}} Year</dd>
+                    <dt>Email:</dt>
+                    <dd>{{uploader[5]}}</dd>
+                    <address>
+                    <dt>Address:</dt>
+                    <dd>{{uploader[6]}}</dd>
+                    </address>
+                </dl>
+            </div>
+
+            <div class="col-md-9">
+
+                <div class="thumbnail">
+                    <img class="img-responsive" src="http://placehold.it/800x300" alt="">
+                    <div class="caption-full">
+                        <h4 class="pull-right"><span class="fa fa-rupee">{{details[-2]}}</span></h4>
+                        <h4><a href="#">{{details[2]}}</a>
+                        </h4>
+                        <small>{{details[3]}}</small>
+                    </div>
+                </div>
+
+                <div class="well">
+
+                    <div class="text-right">
+                        <a class="btn btn-success">Leave a Review</a>
+                    </div>
+
+                    <hr>
+
+<!--                     <div class="row">
+                        <div class="col-md-12">
+                            Anonymous
+                            <span class="pull-right">10 days ago</span>
+                            <p>This product was great in terms of quality. I would definitely buy another!</p>
+                        </div>
+                    </div>
+
+                    <hr>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            Anonymous
+                            <span class="pull-right">12 days ago</span>
+                            <p>I've alredy ordered another one!</p>
+                        </div>
+                    </div>
+
+                    <hr>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            Anonymous
+                            <span class="pull-right">15 days ago</span>
+                            <p>I've seen some better than this, but not at this price. I definitely recommend this item.</p>
+                        </div>
+                    </div>
+ -->
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+{%endblock%}

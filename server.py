@@ -1,3 +1,4 @@
+
 import os,binascii
 from flask import Flask, request, session, g, redirect, url_for, abort, \
      render_template, flash, jsonify
@@ -310,11 +311,23 @@ def shout():
 	pagination = Pagination(page = page ,per_page=per_page,total = total, search=search,record_name = 'posts',bs_version=3)
 	return render_template('shout/screen.html',posts=posts,UName=app.config['USERNAME'],activity=activity,pagination=pagination) #show_entries
 #---------------Buy_Sell---------------
-
 @app.route('/bechde')
 def bechde():
 	session['current_page']="store"
 	return render_template('buysell/index.html')
+
+@app.route('/item/<itemID>')
+def show_item_profile(itemID):
+	db=get_cursor()
+	sql='select * from store where itemID="%s"'%(itemID)
+	db.execute(sql)
+	details=db.fetchone()
+	db.execute("commit")
+	sql='select * from profile where sno=%s'%(details[1])
+	db.execute(sql)
+	uploader=db.fetchone()
+	db.execute("commit")
+	return render_template('buysell/item_description.html',details=details,uploader=uploader)
 
 @app.route('/store')
 def store():
@@ -325,11 +338,11 @@ def store():
 	uploader=[]
 	category=[]
 	for entry in entries:
-		sql='select UserName from login where RollNo="%s"'%(entry[0])
+		sql='select UserName from login where Sno=%s'%(entry[1])
 		db.execute(sql)
-		uploader.append(db.fetchone())
+		uploader.append(db.fetchone()[0])
 		db.execute("commit")
-		sql='select CategoryName from store_categories where categoryid=%s'%(entry[2])
+		sql='select CategoryName from store_categories where categoryid=%s'%(entry[4])
 		db.execute(sql)
 		category.append(db.fetchone())
 	db.execute('select distinct CategoryID,CategoryName from store_categories')		
@@ -350,12 +363,13 @@ def filter_store():
 		db.execute(sql)
 		uploader.append(db.fetchone())
 		db.execute("commit")
-		sql='select CategoryName from store_categories where categoryid=%s'%(entry[2])
+		sql='select CategoryName from store_categories where categoryid=%s'%(entry[4])
 		db.execute(sql)
 		category.append(db.fetchone())
 	db.execute('select distinct CategoryID,CategoryName from store_categories')		
 	filter_cat=db.fetchall()
 	return render_template('buysell/store.html',entries=entries,uploader=uploader,category=category,filter_cat=filter_cat)
+
 if __name__ == "__main__":
 	app.debug = True
 	app.secret_key=os.urandom(24)

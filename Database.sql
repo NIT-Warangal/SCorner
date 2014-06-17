@@ -67,27 +67,29 @@ INSERT INTO `AnonymousPosts` (`Date`, `PostContent`, `Type`,`LikeCount`,`Name`) 
 ('2014-06-27 00:00:00', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nemo numquam officiis distinctio similique consequuntur provident eveniet aliquid reprehenderit. Dignissimos, expedita, omnis? Rerum, itaque, alias mollitia omnis quos quas a tempora.Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rem, praesentium, a, velit excepturi saepe fuga vel unde labore quae reiciendis enim sit quod nesciunt. Esse sed corporis quam eos ratione!', 3,0,"Anonymous"),
 ('2014-06-20 00:00:00', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nemo numquam officiis distinctio similique consequuntur provident eveniet aliquid reprehenderit. Dignissimos, expedita, omnis? Rerum, itaque, alias mollitia omnis quos quas a tempora.Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rem, praesentium, a, velit excepturi saepe fuga vel unde labore quae reiciendis enim sit quod nesciunt. Esse sed corporis quam eos ratione!', 4,0,"Anonymous");
 
---
--- Table structure for table `store`
---
+
 CREATE TABLE IF NOT EXISTS `store` (
+  `itemID` int(11) NOT NULL AUTO_INCREMENT,
   `UserID` text NOT NULL,
   `Name` text NOT NULL,
+  `ItemDescription` text NOT NULL,
   `CategoryID` text NOT NULL,
+  `Quantity` int(11) NOT NULL,
   `MRP` double(10,0) NOT NULL,
   `DealPrice` double(10,0) NOT NULL,
-  `Available` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `Available` int(11) NOT NULL,
+  PRIMARY KEY (`itemID`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
 
 --
 -- Dumping data for table `store`
 --
 
-INSERT INTO `store` (`UserID`, `Name`, `CategoryID`, `MRP`, `DealPrice`, `Available`) VALUES
-('12345', 'Chair', '2', 2300, 1800, 1),
-('12345', 'Table', '2', 1300, 1000, 1),
-('12345', 'Fan', '1', 300, 180, 1),
-('12345', 'Cycle', '3', 4300, 2800, 1);
+INSERT INTO `store` (`itemID`, `UserID`, `Name`, `ItemDescription`, `CategoryID`, `Quantity`, `MRP`, `DealPrice`, `Available`) VALUES
+(1, '1', 'Chair', 'Loren ipsum Dolor chetos lays banana buga buga bugaaa', '2', 0, 2300, 1800, 1),
+(2, '1', 'Table', 'Loren ipsum Dolor chetos lays banana buga buga bugaaa', '2', 0, 1300, 1000, 1),
+(3, '1', 'Fan', 'Loren ipsum Dolor chetos lays banana buga buga bugaaa', '1', 0, 300, 180, 1),
+(4, '1', 'Cycle', 'Loren ipsum Dolor chetos lays banana buga buga bugaaa', '3', 0, 4300, 2800, 1);
 
 -- --------------------------------------------------------
 
