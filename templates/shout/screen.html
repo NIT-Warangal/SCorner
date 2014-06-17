@@ -106,6 +106,22 @@ function myfunc(selector1,jsonsel,result,selector2,sel) {
                 </blockquote>
               </div>
             </li>
+            <ul class="timeline">
+              {%for item in comments[i]%}
+              <li>
+                <div class="content">
+                  <p><strong>{{item[-2]}}</strong> has commented:</p>
+                  <blockquote><p>{{item[-1]}}</p><small>{{item[-2]}}</small></blockquote>
+                </div>
+              </li>
+              {%endfor%}
+              <li>
+                <form action="{{url_for('comment')}}"  method="POST">
+                <textarea name="comment_content" id="comment" cols="10" rows="2" class="form-control" style="margin-left:76px;width:93%;" placeholder="Enter comment here"></textarea>
+                <button class="btn btn-success pull-right" name="comment" value="{{post[0]}}">Comment</button>
+                </form>
+              </li>
+            </ul>
             {% endif %}
             {% if post[3] == 2 %}
             <li>
@@ -124,6 +140,22 @@ function myfunc(selector1,jsonsel,result,selector2,sel) {
                 </blockquote>
               </div>
             </li>
+            <ul class="timeline">
+              {%for item in comments[i]%}
+              <li>
+                <div class="content">
+                  <p><strong>{{item[-2]}}</strong> has commented:</p>
+                  <blockquote><p>{{item[-1]}}</p><small>{{item[-2]}}</small></blockquote>
+                </div>
+              </li>
+              {%endfor%}
+              <li>
+                <form action="{{url_for('comment')}}"  method="POST">
+                <textarea name="comment_content" id="comment" cols="10" rows="2" class="form-control" style="margin-left:76px;width:93%;" placeholder="Enter comment here"></textarea>
+                <button class="btn btn-success pull-right" name="comment" value="{{post[0]}}">Comment</button>
+                </form>
+              </li>
+            </ul>
             {% endif %}
             {% if post[3] == 3 %}
             <li>
@@ -142,6 +174,22 @@ function myfunc(selector1,jsonsel,result,selector2,sel) {
                 </blockquote>
               </div>
             </li>
+            <ul class="timeline">
+              {%for item in comments[i]%}
+              <li>
+                <div class="content">
+                  <p><strong>{{item[-2]}}</strong> has commented:</p>
+                  <blockquote><p>{{item[-1]}}</p><small>{{item[-2]}}</small></blockquote>
+                </div>
+              </li>
+              {%endfor%}
+              <li>
+                <form action="{{url_for('comment')}}"  method="POST">
+                <textarea name="comment_content" id="comment" cols="10" rows="2" class="form-control" style="margin-left:76px;width:93%;" placeholder="Enter comment here"></textarea>
+                <button class="btn btn-success pull-right" name="comment" value="{{post[0]}}">Comment</button>
+                </form>
+              </li>
+            </ul>
             {% endif %}
             {% if post[3] == 4 %}
             <li>
@@ -160,6 +208,22 @@ function myfunc(selector1,jsonsel,result,selector2,sel) {
                 </blockquote>
               </div>
             </li>
+            <ul class="timeline">
+              {%for item in comments[i]%}
+              <li>
+                <div class="content">
+                  <p><strong>{{item[-2]}}</strong> has commented:</p>
+                  <blockquote><p>{{item[-1]}}</p><small>{{item[-2]}}</small></blockquote>
+                </div>
+              </li>
+              {%endfor%}
+              <li>
+                <form action="{{url_for('comment')}}"  method="POST">
+                <textarea name="comment_content" id="comment" cols="10" rows="2" class="form-control" style="margin-left:76px;width:93%;" placeholder="Enter comment here"></textarea>
+                <button class="btn btn-success pull-right" name="comment" value="{{post[0]}}">Comment</button>
+                </form>
+              </li>
+            </ul>
             {% endif %}
             {%set i=i+1%}
             {% endfor %}
