@@ -23,11 +23,12 @@
 
 </style>
     <div class="container">
-    	<center><h1>The eStore</h1></center>
+    	<center><h1>The e-Store</h1></center>
         <div class="row">
 
             <div class="col-md-3">
                 <p class="lead">Uploader's Details</p><hr>
+                {%if session.logged_in==True%}
                 <dl class="dl-vertical">
                     <dt>Roll Number:</dt>
                     <dd>{{uploader[1]}}</dd>
@@ -46,6 +47,9 @@
                     <dd>{{uploader[6]}}</dd>
                     </address>
                 </dl>
+                {%else%}
+                <p>Please login to view the details</p>
+                {%endif%}
             </div>
 
             <div class="col-md-9">
@@ -63,11 +67,23 @@
                 <div class="well">
 
                     <div class="text-right">
-                        <a class="btn btn-success">Leave a Review</a>
+                        {%if details[-1]==1%}
+                        {%if is_user_uploader==True%}
+                        <a class="btn btn-success" href="#">Available</a>
+                        {%else%}
+                        <a class="btn btn-success" href="{{url_for('users',id_no=details[1])}}">Available</a>
+                        {%endif%}
+                        {%else%}
+                        <a class="btn btn-warning" disabled="">Unavailable</a>
+                        {%endif%}
+                        {%if is_user_uploader==True and details[-1]==1%}
+                        <form action="sold/{{details[0]}}" method="POST">
+                        <button class="btn btn-primary" type="submit">Sold</button>
+                        </form>
+                        {%endif%}
                     </div>
-
+                    
                     <hr>
-
 <!--                     <div class="row">
                         <div class="col-md-12">
                             Anonymous
