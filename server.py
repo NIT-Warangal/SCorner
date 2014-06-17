@@ -77,10 +77,20 @@ def add():
 		pwd = str(request.form['password1'])
 		confirm = str(request.form['password2'])
 		email = str(request.form['email'])
+		year = str(request.form['year'])
+		name = str(request.form['name'])
+		phno = str(request.form['phone'])
+		addr = str(request.form['address'])
 		if pwd == confirm:
 			sql = 'insert into Login (RollNo,UserName,Password,Role,Email) values ("%s","%s",MD5("%s"),"%s","%s")'%(rollno,uname,pwd,2,email)
 			db.execute(sql)
 			db.execute("commit")
+			retrievesno = 'select Sno from Login where RollNo="%s" and UserName="%s"'%(rollno,uname)
+			db.execute(retrievesno)
+			sno = db.fetchone()[0]
+			profilesql = 'insert into Profile values ("%s","%s","%s","%s","%s","%s","%s")'
+			db.execute(profilesql%(str(sno),rollno,name,phno,year,email,addr))
+			db.execute('commit')
 			flash("Registered Successfully.")
 			return redirect(url_for('login'))
 		else:
@@ -182,7 +192,7 @@ def allusers():
 		gravatar=[]
 		for user in users:
 			gravatar.append(hashlib.md5(user[5]).hexdigest())
-		return render_template('users.html',users=users,gravatar=gravatar)
+		return render_template('users.html',users=users,gravatar=gravatar,UName=app.config['USERNAME'])
 
 # Query for users profile - API using Sno present in database
 @app.route('/users/<id_no>', strict_slashes=False)
@@ -196,7 +206,7 @@ def users(id_no):
 		return redirect(url_for('shout'))
 	else:
 		gravatar=hashlib.md5(user[5]).hexdigest()
-		return render_template('shout/profile.html',user=user,gravatar=gravatar)
+		return render_template('shout/profile.html',user=user,gravatar=gravatar,UName=app.config['USERNAME'])
 
 # Query for users profile - API using Email registered to user
 @app.route('/e-users/<id_email>', strict_slashes=False)
@@ -209,7 +219,7 @@ def usersemail(id_email):
 		flash('Email '+id_email+' not found')
 		return redirect(url_for('shout'))
 	else:
-		return render_template('shout/profile.html',user=user)
+		return render_template('shout/profile.html',user=user,UName=app.config['USERNAME'])
 
 @app.route('/logout')
 def logout():
