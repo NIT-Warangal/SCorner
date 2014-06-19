@@ -21,14 +21,19 @@
       <div class="container-fluid">
         <div class="navbar-collapse">
           <ul class="nav navbar-nav navbar-right user-nav">
+              {%if session.logged_in%}
+            <li style="padding:10px;">
+              <img src="https://www.gravatar.com/avatar/{{emailhash(session.email)}}?d=identicon&f=y" style="height:30px;width:30px;display:inline-block;border-radius:50%;">
+            </li>
+              {%endif%}
             <li class="dropdown profile_menu">
               {% if session.logged_in %}
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span>Hello {{session.uname}}</span> <b class="caret"></b></a>
                 <ul class="dropdown-menu">
-                  <li><a href="/logout">Sign Out</a></li>
+                  <li><a href="/logout"><span class="fa fa-power-off fa-10" style="color:tomato"></span> Sign Out</a></li>
                 </ul>
               {% else %}
-                <a href="/login"> Login</a>
+                <a href="/login"><span class="fa fa-sign-in fa-10"></span> Login</a>
               {% endif %}
             </li>
           </ul>
@@ -40,6 +45,8 @@
             <h3 class="fa fa-group fa-6" style="color:steelblue;"> {{session.currentpage}}</h3>
             {%elif session.currentpage=="Bech De!"%}
             <h3 class="fa fa-group fa-6" style="color:#d7777b;"> {{session.currentpage}}</h3>
+            {%else%}
+            <h3>{{session.currentpage}}</h3>
             {%endif%}
           </ul>
           </div><!--/.nav-collapse animate-collapse -->
