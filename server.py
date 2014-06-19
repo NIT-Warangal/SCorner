@@ -1,4 +1,3 @@
-
 import os,binascii
 from flask import Flask, request, session, g, redirect, url_for, abort, \
      render_template, flash, jsonify
@@ -119,10 +118,14 @@ def login():
 			db.execute(sql)
 			result=db.fetchone()[0]
 			session['temp']=result
+			session['uname']=uname
 			sql='select Sno from Login where UserName="%s" and Password=MD5("%s")'%(uname,pwd)
 			db.execute(sql)
 			uid=db.fetchone()[0]
 			db.execute("COMMIT")
+			sql='insert into usage_history (`IP_ADDRESS`, `SessionStatus`, `LoginID`, `LoginTime`) values("%s",1,"%s",CURRENT_TIMESTAMP)'%(ip,uid)
+			db.execute(sql)
+			db.execute("commit")
 			app.config['USERNAME'] = uname
 			app.config['USERID'] = uid
 			flash('You were logged in ')
@@ -227,13 +230,32 @@ def logout():
         if session['logged_in']==True:
             session.pop('logged_in', None)
             session.pop('temp',0)
+            db=get_cursor()
+            sql='update usage_history set `SessionStatus`=2,`LogoutTime`=CURRENT_TIMESTAMP where `SessionStatus`=1 and `LoginID`="%s"'%(app.config['USERID'])
+            db.execute(sql)
+            db.execute("commit")
+            session["currentpage"]="SCorner"
             flash('You were logged out')
         else:
             flash('Welcome Back!')
-    return redirect(url_for('shout'))
+    return redirect(url_for('mainscreen'))
 
+@app.route('/login-history')
+def login_history():
+	db=get_cursor()
+	sql='select * from usage_history'
+	db.execute(sql)
+	entries=db.fetchall()
+	unames=[]
+	for entry in entries:
+		sql='select userName from login where sno=%s'%(entry[2])
+		db.execute(sql)
+		unames.append(str(db.fetchone()[0]))
+	db.execute("commit")
+	return render_template('global/login_history.html',entries=entries,unames=unames)
 @app.route("/filter",methods=['GET'])
 def filter():
+	session["currentpage"]="Shout Box"
 	search=False
 	q=request.args.get('q')
 	if q:
@@ -298,11 +320,12 @@ def comment():
 
 @app.route("/")
 def mainscreen():
-	session['current_page']="welcome"
+	session["currentpage"]="SCorner"
 	return render_template('global/welcome.html')
 		
 @app.route("/shout")
 def shout():
+	session["currentpage"]="Shout Box"
 	search=False
 	q=request.args.get('q')
 	if q:
@@ -348,11 +371,12 @@ def shout():
 #---------------Buy_Sell---------------
 @app.route('/bechde')
 def bechde():
-	session['current_page']="store"
+	session['current_page']="Bech De!"
 	return render_template('buysell/index.html')
 
 @app.route('/item/<itemID>')
 def show_item_profile(itemID):
+	session["currentpage"]="Bech De!"
 	db=get_cursor()
 	sql='select * from store where itemID="%s"'%(itemID)
 	db.execute(sql)
@@ -376,6 +400,7 @@ def sold(itemID):
 	return redirect(url_for('show_item_profile',itemID=itemID))
 @app.route('/store')
 def store():
+	session["currentpage"]="Bech De!"
 	db=get_cursor()
 	sql="select * from store"
 	db.execute(sql)
@@ -396,6 +421,7 @@ def store():
 
 @app.route('/filter_store',methods=['POST'])
 def filter_store():
+	session["currentpage"]="Bech De!"
 	db=get_cursor()
 	category=int(request.form['filter'])
 	sql='select * from store where categoryid="%s"'%(category)
