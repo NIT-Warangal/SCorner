@@ -136,9 +136,13 @@ CREATE TABLE IF NOT EXISTS `comments` (
 --
 -- Keeping log track of user logins
 --
+-- @session_Status :
+-- 1. Active.
+-- 2. Ended session.
 
 CREATE TABLE IF NOT EXISTS `USAGE_HISTORY`(
   `IP_ADDRESS` text NOT NULL,
+  `SessionStatus` int NOT NULL,
   `LoginID` text NOT NULL,
   `LoginTime` datetime NOT NULL,
   `LogoutTime` datetime
