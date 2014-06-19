@@ -20,7 +20,9 @@
               <div class="personal">
                 <h1 class="name">{{user[2]}}</h1>
                 <p class="description">{{user[6]}}</p><p>
-                <button class="btn btn-primary btn-flat btn-rad" data-modal="reply-ticket"><i class="fa fa-globe"></i>{{user[4]}} Year</button>
+                {%set y='st'%}
+                {%if user[4]==2%}{%set y='nd'%}{%elif user[4]==3%}{%set y='rd'%}{%elif user[4]==4%}{%set y='4'%}{%endif%}
+                <button class="btn btn-primary btn-flat btn-rad" data-modal="reply-ticket"><i class="fa fa-globe"></i>{{user[4]}}{{y}} Year</button>
               </p></div>
             </div>
             <div class="col-sm-5">
@@ -53,7 +55,7 @@
           </ul>
           <div class="tab-content">
             <div id="comments" class="tab-pane active cont">
-              <textarea class="form-control spacer-bottom-sm" placeholder="Post Something."></textarea>
+              <textarea class="form-control spacer-bottom-sm" placeholder="Post Something." style="resize:none;"></textarea>
               <button class="btn btn-primary" type="button">Share</button>
             </div>
             <div id="picture" class="tab-pane cont">
