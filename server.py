@@ -87,8 +87,8 @@ def add():
 			retrievesno = 'select Sno from Login where RollNo="%s" and UserName="%s"'%(rollno,uname)
 			db.execute(retrievesno)
 			sno = db.fetchone()[0]
-			profilesql = 'insert into Profile values ("%s","%s","%s","%s","%s","%s","%s")'
-			db.execute(profilesql%(str(sno),rollno,name,phno,year,email,addr))
+			profilesql = 'insert into Profile values ("%s","%s","%s","%s","%s","%s","%s","%s")'
+			db.execute(profilesql%(str(sno),rollno,name,phno,year,email,addr,uname))
 			db.execute('commit')
 			flash("Registered Successfully.")
 			return redirect(url_for('login'))
@@ -209,9 +209,10 @@ def users(id_no):
 		return redirect(url_for('shout'))
 	else:
 		gravatar=hashlib.md5(user[5]).hexdigest()
-		sql = 'select * from AnonymousPosts where Name="%s"'%app.config['USERNAME']
+		sql = 'select * from AnonymousPosts where Name=(select UserName from Profile where Sno="%s")'%id_no
 		db.execute(sql)
 		posts = db.fetchall()
+		print posts
 		return render_template('shout/profile.html',user=user,gravatar=gravatar,UName=app.config['USERNAME'],posts=posts)
 
 # Query for users profile - API using Email registered to user

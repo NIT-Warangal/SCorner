@@ -28,6 +28,7 @@ CREATE TABLE IF NOT EXISTS `Profile` (
   `Year` int(11) NOT NULL,
   `Email` text NOT NULL,
   `Address` text NOT NULL,
+  `UserName` text NOT NULL,
   PRIMARY KEY (SNo)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -38,10 +39,10 @@ INSERT INTO Login VALUES (2,'67890','studentroot',MD5('studentroot'),2,'studentr
 INSERT INTO Login VALUES (3,'34567','profroot',MD5('profroot'),3,'profroot@toor.com');
 INSERT INTO Login VALUES (4,'24689','modroot',MD5('modroot'),4,'modroot@toor.com');
 
-insert into Profile values(1,'12345','Someone','999999999',2,'root@toor.com','blablabla blabla bla blalbalbalballalbla');
-insert into Profile values(2,'67890','Someone2','888888888',3,'studentroot@toor.com','blablabla blabla bla blalbalbalballalbla');
-insert into Profile values(3,'34567','Someone3','777777777',1,'profroot@toor.com','blablabla blabla bla blalbalbalballalbla');
-insert into Profile values(4,'24689','Someone4','666666666',3,'modroot@toor.com','blablabla blabla bla blalbalbalballalbla');
+insert into Profile values(1,'12345','Someone','999999999',2,'root@toor.com','blablabla blabla bla blalbalbalballalbla','root');
+insert into Profile values(2,'67890','Someone2','888888888',3,'studentroot@toor.com','blablabla blabla bla blalbalbalballalbla','studentroot');
+insert into Profile values(3,'34567','Someone3','777777777',1,'profroot@toor.com','blablabla blabla bla blalbalbalballalbla','profroot');
+insert into Profile values(4,'24689','Someone4','666666666',3,'modroot@toor.com','blablabla blabla bla blalbalbalballalbla','modroot');
 -- Short Anonymous Posts. Used for ranting about problems.
 -- Type 1 : Complaint
 -- Type 2 : Request
