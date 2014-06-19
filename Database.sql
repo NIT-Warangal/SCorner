@@ -132,3 +132,14 @@ CREATE TABLE IF NOT EXISTS `comments` (
   `content` text NOT NULL,
   PRIMARY KEY (`commentID`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
+
+--
+-- Keeping log track of user logins
+--
+
+CREATE TABLE IF NOT EXISTS `USAGE_HISTORY`(
+  `IP_ADDRESS` text NOT NULL,
+  `LoginID` text NOT NULL,
+  `LoginTime` datetime NOT NULL,
+  `LogoutTime` datetime
+)
