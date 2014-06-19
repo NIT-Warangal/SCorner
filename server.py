@@ -231,7 +231,7 @@ def logout():
             session.pop('logged_in', None)
             session.pop('temp',0)
             db=get_cursor()
-            sql='update usage_history set `SessionStatus`=2,`LogoutTime`=CURRENT_TIMESTAMP where `SessionStatus`=1 and `LoginID`="%s"'%(app.config['USERID'])
+            sql='update usage_history set `SessionStatus`=0,`LogoutTime`=CURRENT_TIMESTAMP where `SessionStatus`=1 and `LoginID`="%s"'%(app.config['USERID'])
             db.execute(sql)
             db.execute("commit")
             session["currentpage"]="SCorner"
@@ -253,6 +253,7 @@ def login_history():
 		unames.append(str(db.fetchone()[0]))
 	db.execute("commit")
 	return render_template('global/login_history.html',entries=entries,unames=unames)
+
 @app.route("/filter",methods=['GET'])
 def filter():
 	session["currentpage"]="Shout Box"

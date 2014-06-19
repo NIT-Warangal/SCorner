@@ -146,4 +146,4 @@ CREATE TABLE IF NOT EXISTS `USAGE_HISTORY`(
   `LoginID` text NOT NULL,
   `LoginTime` datetime NOT NULL,
   `LogoutTime` datetime
-)
+);
