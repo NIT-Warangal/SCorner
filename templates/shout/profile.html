@@ -57,6 +57,9 @@
             <div id="comments" class="tab-pane active cont">
               <textarea class="form-control spacer-bottom-sm" placeholder="Post Something." style="resize:none;"></textarea>
               <button class="btn btn-primary" type="button">Share</button>
+              <div class="btn-group pull-right">
+                <input data-parsley-id="2599" data-parsley-multiple="remember_the_fallen" name="remember_the_fallen" type="checkbox"> Post Anonymously
+                </div>
             </div>
             <div id="picture" class="tab-pane cont">
               <div class="fileinput fileinput-new" data-provides="fileinput" style="width: 100%;">
@@ -78,6 +81,26 @@
                 </span>
               </div>
             </div>
+          </div>
+          <div class="col-md-12">
+            <ul class="timeline">
+            {% if not posts %}
+              <li><i class="fa fa-globe purple"></i><span class="date"></span><div class="content"><p><strong>Admin: </strong> Oh No one has posted anything yet. Why don't you make one ?.</p></div></li>
+            {% endif %}
+            {% for post in posts %}
+              <li>
+              <i class="fa fa-comment"></i>
+              <span class="date">{{post[1].strftime('%d %b')}}</span>
+              <!-- If statement here to check type of post i.e. if its a complaint/enhancement/request/rant -->
+              <div class="content">
+                <span class="badge pull-right" id="badge{{i}}" >{{post[4]}} Likes</span>
+                <blockquote>
+                  <p>{{post[2]}}</p>
+                  <small>{{post[5]}}</small>
+                </blockquote>
+              </div>
+            {% endfor %}
+            </ul>
           </div>
         </div>
         </div>

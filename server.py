@@ -209,7 +209,10 @@ def users(id_no):
 		return redirect(url_for('shout'))
 	else:
 		gravatar=hashlib.md5(user[5]).hexdigest()
-		return render_template('shout/profile.html',user=user,gravatar=gravatar,UName=app.config['USERNAME'])
+		sql = 'select * from AnonymousPosts where Name="%s"'%app.config['USERNAME']
+		db.execute(sql)
+		posts = db.fetchall()
+		return render_template('shout/profile.html',user=user,gravatar=gravatar,UName=app.config['USERNAME'],posts=posts)
 
 # Query for users profile - API using Email registered to user
 @app.route('/e-users/<id_email>', strict_slashes=False)
@@ -399,6 +402,7 @@ def sold(itemID):
 	db.execute(sql)
 	db.execute("commit")
 	return redirect(url_for('show_item_profile',itemID=itemID))
+
 @app.route('/store')
 def store():
 	session["currentpage"]="Bech De!"
