@@ -37,7 +37,7 @@ def get_cursor():
 
 @app.errorhandler(404)
 def page_not_found(e):
-    return render_template('404.html'), 404
+    return render_template('global/404.html'), 404
 
 @app.errorhandler(500)
 def special_exception_handler(error):
@@ -74,10 +74,10 @@ def admin_login():
 				error='Invalid username/password'
 			else:
 				session['logged_in'] = True
-				# sql='select Role from Login where UserName="%s" and Password=MD5("%s")'%(uname,pwd)
-				# db.execute(sql)
-				# result=db.fetchone()[0]
-				# session['temp']=result
+				sql='select Role from Login where UserName="%s" and Password=MD5("%s")'%(uname,pwd)
+				db.execute(sql)
+				result=db.fetchone()[0]
+				session['temp']=result
 				session['uname']=uname
 				sql='select Sno,email from Login where UserName="%s" and Password=MD5("%s")'%(uname,pwd)
 				db.execute(sql)
@@ -92,14 +92,13 @@ def admin_login():
 				session['email']=result[1]
 				flash('You were logged in ')
 				return redirect(url_for('mainscreen'))
-			return render_template('global/admin_login.html',user_ip=ip)
-		return render_template('global/admin_login.html',user_ip=ip)
+			return render_template('admin/admin_login.html',user_ip=ip)
+		return render_template('admin/admin_login.html',user_ip=ip)
 	db=get_cursor()
 	sql='insert into illegal_access(`IP_ADDRESS`,`DATE`,`page_accessed`) values("%s",CURRENT_TIMESTAMP,"Admin-Login")'%(ip)
 	db.execute(sql)
 	db.execute("commit")
 	return '<div  style="color:RED"><h3>Your IP address %s doesnot match.</h3><h1>You have been caught and reported for trying to access admin page</h1></div>'%(ip)
-	
 
 @app.route('/postit',methods=['GET','POST'])
 def postit():
@@ -255,12 +254,12 @@ def allusers():
 	session['currentpage']="Admin"
 	if not users:
 		flash('No users in database')
-		return redirect(url_for('shout'))
+		return redirect(url_for('mainscreen'))
 	else:
 		gravatar=[]
 		for user in users:
 			gravatar.append(hashlib.md5(user[5]).hexdigest())
-		return render_template('users.html',users=users,gravatar=gravatar,UName=app.config['USERNAME'])
+		return render_template('admin/users.html',users=users,gravatar=gravatar,UName=app.config['USERNAME'])
 
 # Query for users profile - API using Sno present in database
 @app.route('/users/<id_no>', strict_slashes=False)
@@ -269,29 +268,31 @@ def users(id_no):
 	sql = 'select * from Profile where Sno=%s'%id_no
 	db.execute(sql)
 	user = db.fetchone()
+	session['currentpage']="SCorner"
 	if not user:
 		flash('User '+id_no+' not found')
-		return redirect(url_for('shout'))
+		return redirect(url_for('mainscreen'))
 	else:
 		gravatar=hashlib.md5(user[5]).hexdigest()
 		sql = 'select * from AnonymousPosts where Name=(select UserName from Profile where Sno="%s")'%id_no
 		db.execute(sql)
 		posts = db.fetchall()
 		print posts
-		return render_template('shout/profile.html',user=user,gravatar=gravatar,UName=app.config['USERNAME'],posts=posts)
+		return render_template('admin/profile.html',user=user,gravatar=gravatar,UName=app.config['USERNAME'],posts=posts)
 
 # Query for users profile - API using Email registered to user
 @app.route('/e-users/<id_email>', strict_slashes=False)
 def usersemail(id_email):
+	session["currentpage"]="Admin"
 	db=get_cursor()
 	sql = 'select * from Profile where Email="%s"'%id_email
 	db.execute(sql)
 	user = db.fetchone()
 	if not user:
 		flash('Email '+id_email+' not found')
-		return redirect(url_for('shout'))
+		return redirect(url_for('mainscreen'))
 	else:
-		return render_template('shout/profile.html',user=user,UName=app.config['USERNAME'])
+		return render_template('admin/profile.html',user=user,UName=app.config['USERNAME'])
 
 @app.route('/logout')
 def logout():
@@ -304,7 +305,6 @@ def logout():
             db.execute(sql)
             db.execute("commit")
             session.clear()
-            session["currentpage"]="SCorner"
             flash('You were logged out')
         else:
             flash('Welcome Back!')
@@ -312,6 +312,7 @@ def logout():
 
 @app.route('/login-history')
 def login_history():
+	session["currentpage"]="Admin"
 	ip=request.remote_addr
 	db=get_cursor()
 	if ip!="127.0.0.0":
@@ -447,19 +448,34 @@ def shout():
 	db.execute("commit")
 	pagination = Pagination(page = page ,per_page=per_page,total = total, search=search,record_name = 'posts',bs_version=3)
 	return render_template('shout/screen.html',posts=posts,UName=app.config['USERNAME'],activity=activity,pagination=pagination,comments=comments) #show_entries
+
 #---------------Buy_Sell---------------
+
 @app.route('/bechde')
 def bechde():
 	session['current_page']="Bech De!"
 	return render_template('buysell/index.html')
 
-@app.route('/additem')
+@app.route('/additem',methods=['GET','POST'])
 def additem():
+	session['current_page']="Bech De!"
 	db=get_cursor()
 	sql='select * from store_categories'
 	db.execute(sql)
 	category=db.fetchall()
 	db.execute("commit")
+	if request.method=="POST":
+		uploaderid=app.config['USERID']
+		name=request.form['itemName']
+		desc=request.form['itemDesc']
+		categoryid=int(request.form['category'])
+		qty=int(request.form['qty'])
+		mrp=float(request.form['qty'])
+		dealprice=float(request.form['dealprice'])
+		sql='insert into store(`UserID`, `Name`, `ItemDescription`, `CategoryID`, `Quantity`, `MRP`, `DealPrice`, `Available`) values("%s","%s","%s",%s,%s,%s,%s,1)'%(uploaderid,name,desc,categoryid,qty,mrp,dealprice)
+		db.execute(sql)
+		db.execute("commit")
+		return redirect(url_for('store'))
 	return render_template('buysell/additem.html',category=category)
 
 @app.route('/item/<itemID>')
@@ -481,6 +497,7 @@ def show_item_profile(itemID):
 
 @app.route('/item/sold/<itemID>',methods=['POST'])
 def sold(itemID):
+	session["currentpage"]="Bech De!"
 	db=get_cursor()
 	sql='update store set available=0 where itemID=%s'%(itemID)
 	db.execute(sql)
