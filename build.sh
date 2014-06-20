@@ -1,5 +1,6 @@
 sudo pip install flask
 sudo pip install flask-mysql
+sudo pip install flask-paginate
 
 # Pending to build.
 

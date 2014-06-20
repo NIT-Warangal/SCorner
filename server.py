@@ -58,6 +58,49 @@ def emailhash(email):
 	return u''+(hashlib.md5(str(email)).hexdigest())+''
 
 app.jinja_env.globals.update(emailhash=emailhash)
+
+@app.route('/admin-login',methods=['GET','POST'])
+def admin_login():
+	ip=request.remote_addr
+	if ip=="127.0.0.1":
+		if request.method=="POST":
+			db=get_cursor()
+			uname=str(request.form['username'])
+			pwd=str(request.form['password'])
+			sql = 'select Count(*) from Login where UserName="%s" and Password=MD5("%s")'%(uname,pwd)
+			db.execute(sql)
+			data = db.fetchone()[0]
+			if not data:
+				error='Invalid username/password'
+			else:
+				session['logged_in'] = True
+				# sql='select Role from Login where UserName="%s" and Password=MD5("%s")'%(uname,pwd)
+				# db.execute(sql)
+				# result=db.fetchone()[0]
+				# session['temp']=result
+				session['uname']=uname
+				sql='select Sno,email from Login where UserName="%s" and Password=MD5("%s")'%(uname,pwd)
+				db.execute(sql)
+				result=db.fetchone()
+				uid=result[0]
+				db.execute("COMMIT")
+				# sql='insert into usage_history (`IP_ADDRESS`, `SessionStatus`, `LoginID`, `LoginTime`) values("%s",1,"%s",CURRENT_TIMESTAMP)'%(ip,uid)
+				# db.execute(sql)
+				# db.execute("commit")
+				app.config['USERNAME'] = uname
+				app.config['USERID'] = uid
+				session['email']=result[1]
+				flash('You were logged in ')
+				return redirect(url_for('mainscreen'))
+			return render_template('global/admin_login.html',user_ip=ip)
+		return render_template('global/admin_login.html',user_ip=ip)
+	db=get_cursor()
+	sql='insert into illegal_access(`IP_ADDRESS`,`DATE`,`page_accessed`) values("%s",CURRENT_TIMESTAMP,"Admin-Login")'%(ip)
+	db.execute(sql)
+	db.execute("commit")
+	return '<div  style="color:RED"><h3>Your IP address %s doesnot match.</h3><h1>You have been caught and reported for trying to access admin page</h1></div>'%(ip)
+	
+
 @app.route('/postit',methods=['GET','POST'])
 def postit():
 	if request.method=="POST":
@@ -209,6 +252,7 @@ def allusers():
 	sql = 'select * from Profile'
 	db.execute(sql)
 	users = db.fetchall()
+	session['currentpage']="Admin"
 	if not users:
 		flash('No users in database')
 		return redirect(url_for('shout'))
@@ -268,7 +312,14 @@ def logout():
 
 @app.route('/login-history')
 def login_history():
+	ip=request.remote_addr
 	db=get_cursor()
+	if ip!="127.0.0.0":
+		#need to change this IP address
+		sql='insert into illegal_access(`IP_ADDRESS`,`DATE`,`page_accessed`) values("%s",CURRENT_TIMESTAMP,"Login-History")'%(ip)
+		db.execute(sql)
+		db.execute("commit")
+		return '<div  style="color:RED"><h3>Your IP address %s doesnot match.</h3><h1>You have been caught and reported for trying to access admin page</h1></div>'%(ip)
 	sql='select * from usage_history'
 	db.execute(sql)
 	entries=db.fetchall()
@@ -401,6 +452,15 @@ def shout():
 def bechde():
 	session['current_page']="Bech De!"
 	return render_template('buysell/index.html')
+
+@app.route('/additem')
+def additem():
+	db=get_cursor()
+	sql='select * from store_categories'
+	db.execute(sql)
+	category=db.fetchall()
+	db.execute("commit")
+	return render_template('buysell/additem.html',category=category)
 
 @app.route('/item/<itemID>')
 def show_item_profile(itemID):

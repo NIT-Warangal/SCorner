@@ -148,3 +148,11 @@ CREATE TABLE IF NOT EXISTS `USAGE_HISTORY`(
   `LoginTime` datetime NOT NULL,
   `LogoutTime` datetime
 );
+
+CREATE TABLE IF NOT EXISTS `illegal_access` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `ip_address` text NOT NULL,
+  `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `page_accessed` text NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=7 ;
