@@ -3,8 +3,13 @@ from flask import Flask, request, session, g, redirect, url_for, abort, \
      render_template, flash, jsonify
 from flask.ext.paginate import Pagination
 from flaskext.mysql import MySQL
-from config import config
+from flask_mail import Mail,Message
+from config import config, ADMINS, MAIL_SERVER, MAIL_PORT, MAIL_USERNAME, MAIL_PASSWORD
 import datetime,json,hashlib
+
+import logging
+from logging.handlers import SMTPHandler
+credentials = None
 
 mysql = MySQL()
 # create our little application :)
@@ -13,6 +18,16 @@ app = Flask(__name__)
 
 for key in config:
     app.config[key] = config[key]
+
+mail = Mail(app)
+# Mail
+mail.init_app(app)
+
+if MAIL_USERNAME or MAIL_PASSWORD:
+    credentials = (MAIL_USERNAME, MAIL_PASSWORD)
+    mail_handler = SMTPHandler((MAIL_SERVER, MAIL_PORT), 'no-reply@' + MAIL_SERVER, ADMINS, 'resetpass', credentials)
+    mail_handler.setLevel(logging.ERROR)
+    app.logger.addHandler(mail_handler)
 
 mysql.init_app(app)
 app.config.from_object(__name__)
