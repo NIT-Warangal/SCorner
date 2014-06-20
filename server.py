@@ -54,6 +54,10 @@ def postblog():
 		return redirect(url_for('shout'))
 	return render_template('shout/editor.html')
 
+def emailhash(email):
+	return u''+(hashlib.md5(str(email)).hexdigest())+''
+
+app.jinja_env.globals.update(emailhash=emailhash)
 @app.route('/postit',methods=['GET','POST'])
 def postit():
 	if request.method=="POST":
@@ -134,15 +138,17 @@ def login():
 			result=db.fetchone()[0]
 			session['temp']=result
 			session['uname']=uname
-			sql='select Sno from Login where UserName="%s" and Password=MD5("%s")'%(uname,pwd)
+			sql='select Sno,email from Login where UserName="%s" and Password=MD5("%s")'%(uname,pwd)
 			db.execute(sql)
-			uid=db.fetchone()[0]
+			result=db.fetchone()
+			uid=result[0]
 			db.execute("COMMIT")
 			sql='insert into usage_history (`IP_ADDRESS`, `SessionStatus`, `LoginID`, `LoginTime`) values("%s",1,"%s",CURRENT_TIMESTAMP)'%(ip,uid)
 			db.execute(sql)
 			db.execute("commit")
 			app.config['USERNAME'] = uname
 			app.config['USERID'] = uid
+			session['email']=result[1]
 			flash('You were logged in ')
 			return redirect(url_for('mainscreen'))
 	return render_template('global/login.html', error=error,UName=app.config['USERNAME'],user_ip=ip)
@@ -253,6 +259,7 @@ def logout():
             sql='update usage_history set `SessionStatus`=0,`LogoutTime`=CURRENT_TIMESTAMP where `SessionStatus`=1 and `LoginID`="%s"'%(app.config['USERID'])
             db.execute(sql)
             db.execute("commit")
+            session.clear()
             session["currentpage"]="SCorner"
             flash('You were logged out')
         else:
@@ -271,6 +278,7 @@ def login_history():
 		db.execute(sql)
 		unames.append(str(db.fetchone()[0]))
 	db.execute("commit")
+	session['currentpage']="Admin"
 	return render_template('global/login_history.html',entries=entries,unames=unames)
 
 @app.route("/filter",methods=['GET'])
