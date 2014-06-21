@@ -158,6 +158,30 @@ def add():
 			return redirect(url_for('register'))
 	return redirect(url_for('register'))
 
+@app.route('/forgetpassword',methods=['GET','POST'])
+def forgetpassword():
+	if request.method=='POST':
+		db=get_cursor()
+		rollno = request.form['rollno']
+		uname = request.form['username']
+		email = request.form['email']
+		sql = 'select * from Login where UserName="%s" and Email="%s" and Rollno="%s"'%(uname,email,rollno)
+		db.execute(sql)
+		db.execute("commit")
+		values = db.fetchall()
+		if not values:
+			flash('No one with that data is found.')
+			return redirect(url_for('forgetpassword'))
+		else:
+			new_password=binascii.b2a_hex(os.urandom(15))
+			flash(new_password + ' is the new password generated.')
+			resetsql = 'update Login set Password="%s" where UserName="%s" and RollNo="%s"'%(new_password,uname,rollno)
+			db.execute(resetsql)
+			db.execute("commit")
+			return redirect(url_for('mainscreen'))
+	else:
+		return redirect(url_for('mainscreen'))
+
 @app.route("/login",methods = ['GET','POST'])
 def login():
 	ip = request.remote_addr
