@@ -180,7 +180,7 @@ def forgetpassword():
 			db.execute("commit")
 			return redirect(url_for('mainscreen'))
 	else:
-		return redirect(url_for('mainscreen'))
+		return render_template('global/forgetpassword.html')
 
 @app.route("/login",methods = ['GET','POST'])
 def login():
