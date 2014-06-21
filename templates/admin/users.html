@@ -1,0 +1,50 @@
+{% extends "global/site_header.html" %}
+{% block body %}
+{%if session.logged_in and session.temp==-1%}
+<body>
+<div class="container">
+	<div class="block-flat">
+		<div class="header">
+			<h3>List of Users</h3>
+		</div>
+		<div class="content">
+			<table class="no-border">
+				<thead class="no-border">
+					<tr>
+					<th>Sno</th>
+					<th>Roll No</th>
+					<th>Name</th>
+					<th>Phone Number</th>
+					<th>Year</th>
+					<th>Email</th>
+					<th>Address</th>
+					<th></th>
+					<th>Profile Pic</th>
+					</tr>
+				</thead>
+				<tbody class="no-border-x no-border-y">
+					{%set i=0%}
+					{% for user in users %}
+					<tr>
+						<td>{{user[0]}}</td>
+						<td>{{user[1]}}</td>
+						<td>{{user[2]}}</td>
+						<td>{{user[3]}}</td>
+						<td>{{user[4]}}</td>
+						<td>{{user[5]}}</td>
+						<td>{{user[6]}}</td>
+						<td><a href="/users/{{user[0]}}" class="btn btn-info">View Profile</a></td>
+						<td><img src="https://www.gravatar.com/avatar/{{gravatar[i]}}?d=identicon&f=y" style="border-radius:50%;"></td>
+					</tr>
+					{%set i=i+1%}
+					{% endfor %}
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+</body>
+{%else%}
+<meta http-equiv="refresh" content="0;url={{url_for('mainscreen')}}" /></head>
+{%endif%}
+{% endblock %}
