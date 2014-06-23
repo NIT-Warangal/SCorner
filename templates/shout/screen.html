@@ -122,6 +122,7 @@ function myfunc(selector1,jsonsel,result,selector2,sel) {
                     <form action="{{url_for('comment')}}"  method="POST">
                     <textarea name="comment_content" id="comment" cols="10" rows="2" class="form-control" style="margin-left:76px;width:93%;" placeholder="Enter comment here"></textarea>
                     <button class="btn btn-success pull-right" name="comment" value="{{post[0]}}" style="margin:10px;">Comment</button>
+                    <input type="hidden" name="page_num" value="{{request.url}}">
                     </form>
                   </li>
                 </ul>
@@ -161,6 +162,7 @@ function myfunc(selector1,jsonsel,result,selector2,sel) {
                     <form action="{{url_for('comment')}}"  method="POST">
                     <textarea name="comment_content" id="comment" cols="10" rows="2" class="form-control" style="margin-left:76px;width:93%;" placeholder="Enter comment here"></textarea>
                     <button class="btn btn-success pull-right" name="comment" value="{{post[0]}}" style="margin:10px;">Comment</button>
+                    <input type="hidden" name="page_num" value="{{request.url}}">
                     </form>
                   </li>
                 </ul>
@@ -200,6 +202,7 @@ function myfunc(selector1,jsonsel,result,selector2,sel) {
                     <form action="{{url_for('comment')}}"  method="POST">
                     <textarea name="comment_content" id="comment" cols="10" rows="2" class="form-control" style="margin-left:76px;width:93%;" placeholder="Enter comment here"></textarea>
                     <button class="btn btn-success pull-right" name="comment" value="{{post[0]}}" style="margin:10px;">Comment</button>
+                    <input type="hidden" name="page_num" value="{{request.url}}">
                     </form>
                   </li>
                 </ul>
@@ -239,6 +242,7 @@ function myfunc(selector1,jsonsel,result,selector2,sel) {
                     <form action="{{url_for('comment')}}"  method="POST">
                     <textarea name="comment_content" id="comment" cols="10" rows="2" class="form-control" style="margin-left:76px;width:93%;" placeholder="Enter comment here"></textarea>
                     <button class="btn btn-success pull-right" name="comment" value="{{post[0]}}" style="margin:10px;">Comment</button>
+                    <input type="hidden" name="page_num" value="{{request.url}}">
                     </form>
                   </li>
                 </ul>

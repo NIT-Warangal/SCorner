@@ -5,7 +5,7 @@ from flask.ext.paginate import Pagination
 from flaskext.mysql import MySQL
 from flask_mail import Mail,Message
 from config import config, ADMINS, MAIL_SERVER, MAIL_PORT, MAIL_USERNAME, MAIL_PASSWORD
-import datetime,json,hashlib
+import datetime,json,hashlib,re
 
 import logging
 from logging.handlers import SMTPHandler
@@ -378,7 +378,8 @@ def filter():
 	sql = 'select * from AnonymousPosts order by Date desc limit %s,%s'%(start,per_page)
 	if filter_num>0:
 		sql='select * from AnonymousPosts where Type=%s limit %s,%s'%(filter_num,start,per_page)
-	print sql
+	else:
+		return redirect(url_for('shout'))
 	db.execute(sql)
 	posts=db.fetchall()
 	db.execute("commit")
@@ -411,16 +412,45 @@ def filter():
 
 @app.route('/comment',methods=['POST'])
 def comment():
+	page=request.form['page_num']
+	pagenum=page[-1]
+	substring="filter"
+	flag=False
+	if substring in page:
+		flag=True
+		if "page=" in page:
+			pagenum=int(pagenum)
+			filternum=re.search("filter=(.*)&",page).group(1)
+		else:
+			pagenum=''
+			filternum=re.search("filter=(.*)?",page).group(1)
+		try:
+			filter_num=int(filternum)
+		except ValueError:
+			filter_num=''
+	else:
+		try:
+			pagenum=int(pagenum)
+		except ValueError:
+			pagenum=''
 	db=get_cursor()
 	postid=int(request.form['comment'])
 	now=datetime.datetime.now()
 	userid=app.config['USERID']
 	uname=app.config['USERNAME']
 	content=request.form['comment_content']
-	sql='insert into comments(`sno`, `date`, `userID`,`userName`, `content`) values(%s,"%s",%s,"%s","%s")'%(postid,now,userid,uname,content)
-	db.execute(sql)
-	db.execute("commit")
-	return redirect(url_for('shout'))
+	if len(content)>0:
+		sql='insert into comments(`sno`, `date`, `userID`,`userName`, `content`) values(%s,"%s",%s,"%s","%s")'%(postid,now,userid,uname,content)
+		db.execute(sql)
+		db.execute("commit")
+	if flag==False:
+		if pagenum:
+			return redirect(url_for('shout',page=pagenum))
+		return redirect(url_for('shout'))
+	elif flag==True:
+		if pagenum:
+			return redirect(url_for('filter',filter=filter_num,page=pagenum))
+		return redirect(url_for('filter',filter=filter_num))
 
 @app.route("/")
 def mainscreen():
@@ -494,7 +524,7 @@ def additem():
 		desc=request.form['itemDesc']
 		categoryid=int(request.form['category'])
 		qty=int(request.form['qty'])
-		mrp=float(request.form['qty'])
+		mrp=float(request.form['mrp'])
 		dealprice=float(request.form['dealprice'])
 		sql='insert into store(`UserID`, `Name`, `ItemDescription`, `CategoryID`, `Quantity`, `MRP`, `DealPrice`, `Available`) values("%s","%s","%s",%s,%s,%s,%s,1)'%(uploaderid,name,desc,categoryid,qty,mrp,dealprice)
 		db.execute(sql)
