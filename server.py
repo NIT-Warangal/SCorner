@@ -507,12 +507,12 @@ def shout():
 
 @app.route('/bechde')
 def bechde():
-	session['current_page']="Bech De!"
+	session['currentpage']="Bech De!"
 	return render_template('buysell/index.html')
 
 @app.route('/additem',methods=['GET','POST'])
 def additem():
-	session['current_page']="Bech De!"
+	session['currentpage']="Bech De!"
 	db=get_cursor()
 	sql='select * from store_categories'
 	db.execute(sql)

@@ -1,122 +1,10 @@
-<html>
-  <head>
-    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,400italic,700,800' rel='stylesheet' type='text/css'>
-      <link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/bootstrap.css') }}">
-      <link rel=stylesheet type=text/css href="{{ url_for('static', filename='fonts/font-awesome-4/css/font-awesome.min.css') }}">
-      <script src="{{ url_for('static', filename='js/jquery.js') }}" type="text/javascript"></script>
-      <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}" type="text/javascript"></script>
-      <!-- Bootstrap core CSS -->
-      
-      <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
-      <!--[if lt IE 9]>
-      <script src="../assets/js/html5shiv.js"></script>
-      <script src="../assets/js/respond.min.js"></script>
-      <![endif]-->
-      <link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/style.css') }}">
-      <script type="text/javascript">
-      $(".alert").alert();
-      </script>
-      <style type="text/css">
-      .footer{
-      position: fixed;
-      bottom: 0%;
-      left: 0%;
-      right: 0%;
-      color: #bbb;
-      background:#111;
-      }
-      .is-center{
-      text-align: center;
-      }
-      #header{
-      background:#2d3e50;
-      }
-      .navbar > .container-fluid .navbar-brand {
-      color: white;
-      }
-      .navbar-default .navbar-nav > li > a{
-      display: inline-block;
-      width: 100%;
-      padding: 1em;
-      margin: 0;
-      text-decoration: none;
-      color: #bbb;
-      -webkit-transition:color .5s ease;
-      }
-      .navbar-default .navbar-nav > li > a:hover{
-      color: #fff;
-      }
-      .slide-left-right
-      {
-      text-decoration:none;
-      display: inline-block;
-      color:tomato;
-      }
-      /* add a empty string after the elment with class .slide-left-right */
-      .slide-left-right:after
-      {
-      content: '';
-      display: block;
-      height: 3px;
-      width: 0;
-      background: transparent;
-      transition: width .5s ease, background-color .5s ease; /* .5 seonds for changes to the width and background-color */
-      -webkit-transition: width .5s ease, background-color .5s ease; /* Chrome and Safari */
-      -moz-transition: width .5s ease, background-color .5s ease; /* FireFox */
-      }
-      /* Change the width and background on hover, aka sliding out */
-      .slide-left-right:hover:after
-      {
-      width: 100%;
-      background: tomato;
-      }
-      </style>
-    </head>
-    <div class="navbar navbar-default navbar-fixed-top" role="navigation" id="header">
-      <div class="container-fluid">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-          <span class="sr-only">Toggle navigation</span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          </button>
-          <ul class="nav navbar-nav not-nav">
-            <!-- Left side elements -->
-            <h3 class="fa fa-shopping-cart fa-8 animated" style="color:#D7777B;display:inline-block;padding:0.5em;margin:0;"><span style="font-family:Open Sans;"> Bech De!</span></h3>
-          </ul>
-        </div>
-        <div class="navbar-collapse collapse navbar-right" >
-          <ul class="nav navbar-nav">
-            <li class="slide-left-right"><a href="/">Home</a></li>
-            <li class="slide-left-right"><a href="#">New Deals</a></li>
-            <li class="slide-left-right"><a href="/store">Store</a></li>
-            <hr/>
-          </ul>
-          {% if session.logged_in %}
-            <ul class="nav navbar-nav navbar-right user-nav">
-              <li class="dropdown profile_menu">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="fa fa-cog"></span></a>
-                <ul class="dropdown-menu">
-                  <li><a href="/logout">Sign Out</a></li>
-                </ul>
-              </li>
-            </ul>
-          {% endif %}
-        </div>
-      </div>
-    </div>
-    <div style="margin-top:55px;"></div>
-    {% for message in get_flashed_messages() %}
-      <div class="alert alert-warning fade in" style="text-align:center;">
-        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-        {{message}}
-      </div>
-    {% endfor %}
-    
-    {%block body%}{%endblock%}
+{%extends "global/site_header.html"%}
+{%block body%}
     {%if session.logged_in%}
-    <center><h1>Good you can upload items or view details of uploaders</h1></center>
+    <center>
+      <h1>Good you can upload items or view details of uploaders</h1>
+      <a href="{{url_for('store')}}" class="btn btn-lg btn-warning" target="_blank">Store</a>
+    </center>
     {%else%}
     <div class="jumbotron">
       <center>
@@ -124,7 +12,5 @@
       <a href="{{url_for('login')}}" class="btn btn-lg btn-success">Login</a><span><a href="{{url_for('register')}}" class="btn btn-lg btn-danger">Register</a></span>
       </center>
     </div>
-    {%endif%}
-    <div class="footer is-center">
-      View the <a href="https://github.com/NIT-Warangal/SCorner" style="color:#1f8dff;text-decoration:none;">source</a> of site on GitHub to make contributions.
-    </div>
+  {%endif%}
+{%endblock%}
