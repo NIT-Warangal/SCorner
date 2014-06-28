@@ -315,7 +315,6 @@ def users(id_no):
 		sql = 'select * from AnonymousPosts where Name=(select UserName from Profile where Sno="%s")'%id_no
 		db.execute(sql)
 		posts = db.fetchall()
-		print posts
 		return render_template('admin/profile.html',user=user,gravatar=gravatar,UName=app.config['USERNAME'],posts=posts)
 
 # Query for users profile - API using Email registered to user

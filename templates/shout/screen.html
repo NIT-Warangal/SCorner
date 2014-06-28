@@ -2,9 +2,6 @@
 
 {% block body %}
 {% if session.logged_in %}
-<head>
-  <title>College Feed</title>
-  <link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/style.css') }}">    
 <script type="text/javascript">
 $(document).ready(function() {
   {%set i=0%}{% for item in posts%}myfunc('button#like{{i}}','button[name="like{{i}}"]','#badge{{i}}','button#dislike{{i}}',0);
@@ -58,7 +55,6 @@ function myfunc(selector1,jsonsel,result,selector2,sel) {
 }
 
 </style>
-</head>
 <body class="animated">
 
 <div id="cl-wrapper">
