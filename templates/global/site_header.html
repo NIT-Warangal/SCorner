@@ -28,6 +28,7 @@
             {% if session.logged_in %}
               <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span>Hello {{session.uname}}</span> <b class="caret"></b></a>
               <ul class="dropdown-menu">
+                <li><a href="/users/{{session.temp}}"><span class="fa fa-user fa-10" style="color:green;"></span> View Profile</a></li>
                 <li><a href="/logout"><span class="fa fa-power-off fa-10" style="color:tomato"></span> Sign Out</a></li>
               </ul>
             {% else %}

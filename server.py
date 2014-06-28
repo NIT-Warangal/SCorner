@@ -300,7 +300,7 @@ def allusers():
 		return render_template('admin/users.html',users=users,gravatar=gravatar,UName=app.config['USERNAME'])
 
 # Query for users profile - API using Sno present in database
-@app.route('/users/<id_no>', strict_slashes=False)
+@app.route('/users/<id_no>', strict_slashes=False, methods=['GET','POST'])
 def users(id_no):
 	db=get_cursor()
 	sql = 'select * from Profile where Sno=%s'%id_no
