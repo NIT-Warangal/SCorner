@@ -5,16 +5,22 @@ from flask.ext.paginate import Pagination
 from flaskext.mysql import MySQL
 from flask_mail import Mail,Message
 from config import config, ADMINS, MAIL_SERVER, MAIL_PORT, MAIL_USERNAME, MAIL_PASSWORD
+from werkzeug.utils import secure_filename
 import datetime,json,hashlib,re
 
 import logging
 from logging.handlers import SMTPHandler
 credentials = None
 
+# Image upload folder in shout
+UPLOAD_FOLDER = 'ImgPosts/'
+ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'gif'])
+
 mysql = MySQL()
 # create our little application :)
 
 app = Flask(__name__)
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 for key in config:
     app.config[key] = config[key]
@@ -47,6 +53,14 @@ def special_exception_handler(error):
 def close_db():
     """Closes the database again at the end of the request."""
     get_cursor().close()
+
+def allowed_file(filename):
+	return '.' in filename and \
+		filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
+
+@app.route('/uploads/<filename>')
+def uploaded_file(filename):
+	return send_from_directory(app.config['UPLOAD_FOLDER'],filename)
 
 @app.route('/postblog',methods=['GET','POST'])
 def postblog():
