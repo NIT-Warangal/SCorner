@@ -104,6 +104,7 @@ def admin_login():
 				app.config['USERNAME'] = uname
 				app.config['USERID'] = uid
 				session['email']=result[1]
+				session['userid']=uid
 				flash('You were logged in ')
 				return redirect(url_for('mainscreen'))
 			return render_template('admin/admin_login.html',user_ip=ip)
@@ -229,6 +230,7 @@ def login():
 			app.config['USERNAME'] = uname
 			app.config['USERID'] = uid
 			session['email']=result[1]
+			session['userid']=uid
 			flash('You were logged in ')
 			return redirect(url_for('mainscreen'))
 	return render_template('global/login.html', error=error,UName=app.config['USERNAME'],user_ip=ip)

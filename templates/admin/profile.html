@@ -6,8 +6,10 @@
 <script src="{{ url_for('static', filename='js/jquery.js') }}" type="text/javascript"></script>
 <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}" type="text/javascript"></script>
 {% block body %}
+
 <div class="cl-mcont">
 <div class="row">
+  {%if session.logged_in%}
 <div class="col-sm-12">
         <div class="block-flat profile-info">
           <div class="row">
@@ -45,7 +47,7 @@
             </div>
           </div>
         </div>
-
+        {%if session.userid==user[0]%}
         <div class="col-md-8">
           <div class="tab-container">
           <ul class="nav nav-tabs wall">
@@ -55,10 +57,24 @@
           </ul>
           <div class="tab-content">
             <div id="comments" class="tab-pane active cont">
+              <form action="{{url_for('postit')}}" method="POST">
               <textarea class="form-control spacer-bottom-sm" placeholder="Post Something." style="resize:none;" name="content"></textarea>
-              <button class="btn btn-primary" name="statuspost" type="button" value="share">Share</button>
-              <div class="btn-group pull-right">
-                <input data-parsley-id="2599" data-parsley-multiple="remember_the_fallen" name="anon" type="checkbox"> Post Anonymously
+              <button class="btn btn-primary" name="statuspost" type="submit" value="share">Share</button>
+              <div class="col-xs-8 col-xs-offset-2 pull-right">
+              <div class="col-xs-4 pull-right">
+                    <select class="form-control input-md" name="ctype">
+                    <option value="1">Complaint</option>
+                    <option value="2">Request</option>
+                    <option value="3">Enhancement/Suggestion</option>
+                    <option value="4">Rant</option>
+                    </select>
+              </div>
+              <div class="col-xs-4 pull-right">
+                    <select class="form-control input-md" name="ptype">
+                    <option value="1">Myself</option>
+                    <option value="2">Anonymous</option>
+                    </select>
+              </div>
                 </div>
             </div>
             <div id="picture" class="tab-pane cont">
@@ -82,10 +98,11 @@
               </div>
             </div>
           </div>
+          {%endif%}
           <div class="col-md-12">
-            <ul class="timeline">
-            {% if not posts %}
-              <li><i class="fa fa-globe purple"></i><span class="date"></span><div class="content"><p><strong>Admin: </strong> Oh No one has posted anything yet. Why don't you make one ?.</p></div></li>
+            <ul class="timeline">{%set path=request.url%}
+            {% if not posts%}{%if session.userid==path[-1] %}
+              <li><i class="fa fa-globe purple"></i><span class="date"></span><div class="content"><p><strong>Admin: </strong> Oh No one has posted anything yet. Why don't you make one ?.</p></div></li>{%else%}<li><i class="fa fa-globe purple"></i><span class="date"></span><div class="content"><p><strong>Admin: </strong>This user did not post/shout anything yet!</p></div></li>{%endif%}
             {% endif %}
             {% for post in posts %}
               <li>
@@ -105,6 +122,11 @@
         </div>
         </div>
       </div>
+      {%else%}
+      <div class="jumbotron">
+      <h1>You better be logged in to view this persons profile info</h1>
+      </div>
+      {%endif%}
     </div>
    </div>
 {% endblock %}
